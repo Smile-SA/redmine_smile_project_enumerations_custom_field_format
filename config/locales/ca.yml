@@ -5,5 +5,5 @@ ca:
   label_project_enumeration: Project Enumeration
   label_project_enumeration_value: Value
   label_project_enumeration_plural: Project Enumerations
-  label_project_enumeration_new: new Project Enumeration value
+  label_project_enumeration_new: New Project Enumeration value
   permission_manage_project_enumeration: Manage Project Enumerations

@@ -21,8 +21,8 @@ Redmine::Plugin.register plugin_name do
   author_url "mailto:Jerome BATAILLE <redmine-support@smile.fr>?subject=#{plugin_name}"
   description 'Adds a new Custom Field Format that stores its values in project enumerations'
   url "https://github.com/Smile-SA/#{plugin_name}"
-  version '0.1.0'
-  requires_redmine :version_or_higher => '2.6.1'
+  version '1.0.0'
+  requires_redmine :version_or_higher => '4.0.0'
 
 
   #######################
@@ -32,7 +32,7 @@ Redmine::Plugin.register plugin_name do
     :partial => "settings/#{plugin_name}"
 
   project_module :issue_tracking do
-    permission :manage_project_enumerations, {:projects => :settings, :project_enumerations => [:index, :show, :new, :create, :edit, :update, :destroy]}, :require => :member
+    permission :manage_project_enumerations, {:projects => :settings, :project_project_enumerations => [:new, :create, :edit, :update, :destroy]}, :require => :member
   end
 end # Redmine::Plugin.register ...
 

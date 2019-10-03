@@ -5,7 +5,7 @@ module Smile
     module ProjectsOverride
       module ProjectEnumerations
         def self.prepended(base)
-          relay_role_instance_methods = [
+          project_enumerations_instance_methods = [
             :settings, # 1/ EXTENDED, RM V4.0.0 OK
           ]
 

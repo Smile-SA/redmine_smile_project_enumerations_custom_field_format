@@ -3,11 +3,15 @@
 # Compatible with Redmine 4.0
 #
 # module Redmine::FieldFormat::ProjectEnumerationFormat
-# - #??????? 
-# - ClassMethods
 #
-# - InstanceMethods
-#   private :
+# * InstanceMethods
+#   * possible_values_options
+#   * possible_values_enumerations
+#   * protected
+#     * query_filter_values
+#     * possible_values_enumerations
+#     * filtered_enumerations_options
+
 
 module Redmine
   module FieldFormat

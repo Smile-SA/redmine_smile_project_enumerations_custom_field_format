@@ -7,14 +7,20 @@ set in the project
 
 ## How it works
 
+* Adds a new value in the CustomFiels types :
+Project Enumeration
+* Adds a new premission : manage_project_enumerations
+This permissions allow to edit Project Enumerations values for the project
+
 * Tested with Redmine V4.0.0
 
 ## TODOs
 
-* Test with other than Issue Custom Field
+* Test with other than Issue Custom Field (Project, ...)
 * Fix Bug enumeration already existing => then redirect
 to enumeration not new enumeration (probjem with POST)
-* Add tests
+* Add Admin view for all Project Enumerations
+* Add Tests
 * Fix TODOS
 
 ```

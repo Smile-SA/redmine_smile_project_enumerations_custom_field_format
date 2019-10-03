@@ -5,5 +5,5 @@ fr:
   label_project_enumeration: Liste de valeurs du Projet
   label_project_enumeration_value: Valeur
   label_project_enumeration_plural: Listes de valeurs du Projet
-  label_project_enumeration_new: nouvelle valeur de Liste
+  label_project_enumeration_new: Nouvelle valeur de Liste
   permission_manage_project_enumerations: Gérer les Liste de valeurs du Projet

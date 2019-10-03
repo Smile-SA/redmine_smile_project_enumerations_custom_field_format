@@ -18,15 +18,17 @@
 class ProjectProjectEnumerationsController < ApplicationController
   menu_item :issues
   model_object ProjectEnumeration
+
   before_action :find_model_object, :except => [:new, :create]
   before_action :find_project_from_association, :except => [:new, :create]
   before_action :find_project_by_project_id, :only => [:new, :create]
   before_action :find_custom_field_by_custom_field_id, :only => [:new, :create]
 
-  #before_action :authorize
+  before_action :authorize
+
 
   # TODO create API views
-  accept_api_auth :index, :create, :update, :destroy
+  accept_api_auth :create, :update, :destroy
 
   helper :projects
 
