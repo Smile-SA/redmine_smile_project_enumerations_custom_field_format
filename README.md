@@ -20,6 +20,7 @@ This permissions allow to edit Project Enumerations values for the project
 * Fix Bug enumeration already existing => then redirect
 to enumeration not new enumeration (probjem with POST)
 * Add Admin view for all Project Enumerations
+* Use status column, or remove it
 * Add Tests
 * Fix TODOS
 
