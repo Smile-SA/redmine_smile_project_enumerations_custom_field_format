@@ -1,0 +1,9 @@
+# Ukrainian translations for Project Enumerations Custom Field Format Plugin
+# by Jérôme BATAILLE (redmine-support@smile.fr)
+
+uk:
+  label_project_enumeration: Project Enumeration
+  label_project_enumeration_value: Value
+  label_project_enumeration_plural: Project Enumerations
+  label_project_enumeration_new: new Project Enumeration
+  permission_manage_project_enumeration: Manage Project Enumerations

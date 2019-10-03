@@ -1,0 +1,9 @@
+<br/>
+<%
+  plugin_name = :redmine_smile_project_enumerations_custom_field_format
+-%>
+<fieldset style="font-family:monospace; font-size:9px;">
+  <legend><h4>[<%= SmileTools.override_count(plugin_name) %>] override(s) added by the plugin (<%= SmileTools.override_last_date(plugin_name).to_s(:db) %>) :</h4></legend>
+
+  <%= SmileTools.override_traces(plugin_name).html_safe %>
+</fieldset>
