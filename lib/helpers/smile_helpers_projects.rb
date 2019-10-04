@@ -5,9 +5,15 @@ require_dependency "projects_helper"
 
 module Smile
   module Helpers
-    module ProjectOverride
+    module ProjectsOverride
       module ProjectEnumerations
         def self.prepended(base)
+          project_enumerations_instance_methods = [
+            :project_settings_tabs, # 1/ EXTENDED RM 4.0.0 OK
+          ]
+
+
+          # Smile specific : EXTENDED
           # Smile comment : module_eval mandatory with helpers, that are included in classes without the module prepended sub-modules
           # Smile comment : but no more access to rewritten methods => use of alias method to access to ancestor version
           base.module_eval do
@@ -45,6 +51,44 @@ module Smile
           base.instance_eval do
             alias_method :project_settings_tabs_without_project_enumerations, :project_settings_tabs
             alias_method :project_settings_tabs, :project_settings_tabs_with_project_enumerations
+          end
+
+
+          trace_prefix       = "#{' ' * (base.name.length + 19)}  --->  "
+          last_postfix       = '< (SM::HO::ProjectsOverride::ProjectEnumerations)'
+
+          smile_instance_methods = base.instance_methods.select{|m|
+              project_enumerations_instance_methods.include?(m) &&
+                base.instance_method(m).source_location.first =~ SmileTools.regex_path_in_plugin(
+                    'lib/helpers/smile_helpers_projects',
+                    :redmine_smile_project_enumerations_custom_field_format
+                  )
+            }
+
+          missing_instance_methods = project_enumerations_instance_methods.select{|m|
+            !smile_instance_methods.include?(m)
+          }
+
+          if missing_instance_methods.any?
+            trace_first_prefix = "#{base.name} MISS   instance_methods  "
+          else
+            trace_first_prefix = "#{base.name}        instance_methods  "
+          end
+
+          SmileTools::trace_by_line(
+            (
+              missing_instance_methods.any? ?
+              missing_instance_methods :
+              smile_instance_methods
+            ),
+            trace_first_prefix,
+            trace_prefix,
+            last_postfix,
+            :redmine_smile_project_enumerations_custom_field_format
+          )
+
+          if missing_instance_methods.any?
+            raise trace_first_prefix + missing_instance_methods.join(', ') + '  ' + last_postfix
           end
         end
       end
