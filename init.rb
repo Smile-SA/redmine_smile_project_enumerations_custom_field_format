@@ -95,7 +95,7 @@ rails_dispatcher.to_prepare do
     '/lib/controllers/smile_controllers_projects',
 
     # lib/helpers
-    '/lib/helpers/smile_helpers_project',
+    '/lib/helpers/smile_helpers_projects',
 
     # lib/models
     '/lib/models/smile_models_project',
@@ -151,7 +151,7 @@ rails_dispatcher.to_prepare do
   #***********************
   # **** 6.2/ Helpers ****
   Rails.logger.info "o=>----- HELPERS"
-  prepend_in(ProjectsHelper, Smile::Helpers::ProjectOverride::ProjectEnumerations)
+  prepend_in(ProjectsHelper, Smile::Helpers::ProjectsOverride::ProjectEnumerations)
 
   #**********************
   # **** 6.3/ Models ****
