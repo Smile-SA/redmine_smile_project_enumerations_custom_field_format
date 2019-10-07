@@ -31,8 +31,6 @@ When a user has this permission a new tab appears in the Project Settings.
 # TODOs
 
 * Test with other than Issue Custom Field (Project, ...)
-* Fix Bug enumeration already existing => then redirect
-to enumeration not new enumeration (probjem with POST)
 * Add Admin view for all Project Enumerations
 * Use status column, or remove it
 * Add Tests
@@ -40,6 +38,8 @@ to enumeration not new enumeration (probjem with POST)
 
 # Changelog
 
+* **V1.0.1**  Fixed redirect to Project enumerations tab after update
+Project Enumeration status editable at creation
 * **V1.0**  Initial version
 
 
