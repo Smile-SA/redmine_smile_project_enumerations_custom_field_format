@@ -98,7 +98,7 @@ class ProjectProjectEnumerationsController < ApplicationController
         respond_to do |format|
           format.html {
             flash[:notice] = l(:notice_successful_update)
-            redirect_back_or_default settings_project_path(@project, :tab => 'versions')
+            redirect_back_or_default settings_project_path(@project, :tab => 'project_enumerations')
           }
           format.api  { render_api_ok }
         end
