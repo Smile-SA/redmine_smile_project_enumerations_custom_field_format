@@ -38,6 +38,7 @@ When a user has this permission a new tab appears in the Project Settings.
 
 # Changelog
 
+* **V1.0.2**  shared_enumerations fixed (namespaces)
 * **V1.0.1**  Fixed redirect to Project enumerations tab after update
 Project Enumeration status editable at creation
 * **V1.0**  Initial version
