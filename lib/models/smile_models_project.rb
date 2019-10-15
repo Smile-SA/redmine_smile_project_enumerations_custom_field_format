@@ -58,7 +58,7 @@ module Smile
             ::ProjectEnumeration.
               joins(:project).
               preload(:project).
-              where("#{Project.table_name}.status <> ? AND #{::ProjectEnumeration.table_name}.sharing = 'system'", STATUS_ARCHIVED)
+              where("#{Project.table_name}.status <> ? AND #{::ProjectEnumeration.table_name}.sharing = 'system'", ::Project::STATUS_ARCHIVED)
           else
             @shared_enumerations ||= begin
               r = root? ? self : root
@@ -66,7 +66,7 @@ module Smile
                 joins(:project).
                 preload(:project).
                 where("#{Project.table_name}.id = #{id}" +
-                        " OR (#{Project.table_name}.status <> #{Project::STATUS_ARCHIVED} AND (" +
+                        " OR (#{Project.table_name}.status <> #{::Project::STATUS_ARCHIVED} AND (" +
                           " #{::ProjectEnumeration.table_name}.sharing = 'system'" +
                           " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{::ProjectEnumeration.table_name}.sharing = 'tree')" +
                           " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{::ProjectEnumeration.table_name}.sharing IN ('hierarchy', 'descendants'))" +
