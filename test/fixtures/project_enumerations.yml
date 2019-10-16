@@ -1,0 +1,50 @@
+---
+project_enumerations_001:
+  id: 1
+  project_id: 4
+  custom_field_id: 1
+  value: "Cat. 1"
+  status: open
+  sharing: "descendants"
+project_enumerations_002:
+  id: 2
+  project_id: 4
+  custom_field_id: 1
+  value: "Cat. 2"
+  status: locked
+  sharing: "descendants"
+project_enumerations_003:
+  id: 3
+  project_id: 4
+  custom_field_id: 1
+  value: "Cat. 3"
+  status: open
+  sharing: "descendants"
+project_enumerations_004:
+  id: 4
+  project_id: 4
+  custom_field_id: 2
+  value: "Enum. 1"
+  status: open
+  sharing: "descendants"
+project_enumerations_005:
+  id: 5
+  project_id: 4
+  custom_field_id: 2
+  value: "Enum. 2"
+  status: open
+  sharing: "descendants"
+project_enumerations_006:
+  id: 6
+  project_id: 4
+  custom_field_id: 2
+  value: "Enum. 3"
+  status: open
+  sharing: "descendants"
+project_enumerations_007:
+  id: 7
+  project_id: 4
+  custom_field_id: 2
+  value: "Enum. 4"
+  status: open
+  sharing: "descendants"

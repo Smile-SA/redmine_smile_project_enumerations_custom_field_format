@@ -33,10 +33,16 @@ When a user has this permission a new tab appears in the Project Settings.
 * Test with other than Issue Custom Field (Project, ...)
 * Add Admin view for all Project Enumerations
 * Use status column, or remove it
-* Add Tests
+* Add Tests (in progress)
 * Fix TODOS
 
 # Changelog
+
+* **V1.0.3**  Tests initialized
+
+```console
+RAILS_ENV=test rails redmine:plugins:test NAME=redmine_smile_project_enumerations_custom_field_format
+```
 
 * **V1.0.2**  shared_enumerations fixed (namespaces)
 * **V1.0.1**  Fixed redirect to Project enumerations tab after update

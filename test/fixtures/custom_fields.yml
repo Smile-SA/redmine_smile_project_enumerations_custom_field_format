@@ -1,0 +1,27 @@
+--- 
+custom_fields_001:
+  name: Project CF Enum 1
+  regexp: ""
+  is_for_all: false
+  is_filter: true
+  type: IssueCustomField
+  id: 1
+  is_required: true
+  field_format: project_enumeration
+  multiple: true
+  searchable: true
+  editable: true
+  position: 1
+custom_fields_002:
+  name: Project CF Enum 2
+  regexp: ""
+  is_for_all: false
+  is_filter: true
+  type: IssueCustomField
+  id: 2
+  is_required: true
+  field_format: project_enumeration
+  multiple: true
+  searchable: true
+  editable: true
+  position: 2
