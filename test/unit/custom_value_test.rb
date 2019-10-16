@@ -27,6 +27,6 @@ class CustomValueTest < ActiveSupport::TestCase
 
     assert_not_nil cf1
     assert_equal 'Project CF Enum 1', cf1.name
-    assert_equal 'project_enumerations', cf1.field_format
+    assert_equal 'project_enumeration', cf1.field_format
   end
 end
