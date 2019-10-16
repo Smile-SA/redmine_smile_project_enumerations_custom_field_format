@@ -41,7 +41,7 @@ When a user has this permission a new tab appears in the Project Settings.
 * **V1.0.3**  Tests initialized
 
 ```console
-# From app root, redmine_test mysql database must exist
+# From plugin root, redmine_test mysql database must exist
 scripts/test_it.sh
 ```
 
