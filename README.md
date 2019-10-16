@@ -41,7 +41,8 @@ When a user has this permission a new tab appears in the Project Settings.
 * **V1.0.3**  Tests initialized
 
 ```console
-RAILS_ENV=test rails redmine:plugins:test NAME=redmine_smile_project_enumerations_custom_field_format
+# From app root, redmine_test mysql database must exist
+scripts/test_it.sh
 ```
 
 * **V1.0.2**  shared_enumerations fixed (namespaces)
