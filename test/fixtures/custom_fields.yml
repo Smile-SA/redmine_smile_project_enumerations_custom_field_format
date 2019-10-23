@@ -19,7 +19,7 @@ custom_fields_002:
   is_filter: true
   type: IssueCustomField
   id: 2
-  is_required: true
+  is_required: false
   field_format: project_enumeration
   multiple: true
   searchable: true

@@ -22,11 +22,13 @@ class CustomValueTest < ActiveSupport::TestCase
 
   plugin_fixtures :custom_fields, :custom_values, :project_enumerations, :custom_fields_projects, :custom_fields_trackers
 
-  def test_new_without_value_should_set_default_value
+  def test_project_enumeraions_custom_field_properties
     cf1 = IssueCustomField.find_by_id(1)
 
     assert_not_nil cf1
     assert_equal 'Project CF Enum 1', cf1.name
     assert_equal 'project_enumeration', cf1.field_format
+    assert cf1.multiple
+    assert_empty cf1.possible_values
   end
 end
