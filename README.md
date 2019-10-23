@@ -38,6 +38,7 @@ When a user has this permission a new tab appears in the Project Settings.
 
 # Changelog
 
+* **V1.0.4**  Tests added on issue show
 * **V1.0.3**  Tests initialized
 
 ```console
