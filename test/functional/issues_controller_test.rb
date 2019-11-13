@@ -165,9 +165,11 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # DONE
   def test_update_form_should_not_display_inactive_enumerations
-=begin
-    assert !IssuePriority.find(15).active?
+    pe = ProjectEnumeration.find(2)
+
+    assert !pe.open?
 
     @request.session[:user_id] = 2
     get :show, :params => {
@@ -175,15 +177,33 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     assert_response :success
 
-    assert_select 'form#issue-form' do
-      assert_select 'select[name=?]', 'issue[priority_id]' do
-        assert_select 'option[value="4"]'
-        assert_select 'option[value="15"]', 0
-      end
+    assert_select 'select.project_enumeration_cf[name=?]', 'issue[custom_field_values][1]' do
+      assert_select 'option', 2
+      assert_select 'option[value=1]', :text => 'Cat. 1"'
+      assert_select 'option[value=3]', :text => 'Cat. 3"'
     end
-=end
+
+
+    pe.status = 'open'
+    pe.save
+    pe.reload
+
+    assert pe.open?
+
+    get :show, :params => {
+        :id => 1
+      }
+    assert_response :success
+
+    assert_select 'select.project_enumeration_cf[name=?]', 'issue[custom_field_values][1]' do
+      assert_select 'option', 3
+      assert_select 'option[value=1]', :text => 'Cat. 1"'
+      assert_select 'option[value=2]', :text => 'Cat. 2"'
+      assert_select 'option[value=3]', :text => 'Cat. 3"'
+    end
   end
 
+  # TODO Prio 2
   def test_show_should_display_category_field_if_categories_are_defined
 =begin
     Issue.update_all :category_id => nil
@@ -196,6 +216,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # TODO Prio 2
   def test_show_should_not_display_category_field_if_no_categories_are_defined
 =begin
     Project.find(1).issue_categories.delete_all
@@ -208,6 +229,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # DONE
   def test_show_with_project_enumeration_custom_field
     get :show, :params => {
         :id => 2
@@ -231,6 +253,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select ".cf_2 .value", :text => @cf2_value4
   end
 
+  # DONE
   def test_show_with_project_enumeration_custom_field_multiple_value_empty
     get :show, :params => {
         :id => 1
@@ -254,6 +277,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_select ".cf_1 .value", :text => "#{@cf1_value1}, #{@cf1_value3}"
   end
 
+  # DONE
   def test_show_with_project_enumeration_custom_multiple_removed
     cf1 = CustomField.find(1)
     cf1.update_attribute :multiple, false
@@ -315,8 +339,8 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # DONE
   def test_get_new_with_list_custom_field
-=begin
     @request.session[:user_id] = 2
     get :new, :params => {
         :project_id => 1,
@@ -324,13 +348,14 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     assert_response :success
 
-    assert_select 'select.list_cf[name=?]', 'issue[custom_field_values][1]' do
-      assert_select 'option', 4
-      assert_select 'option[value=MySQL]', :text => 'MySQL'
+    assert_select 'select.project_enumeration_cf[name=?]', 'issue[custom_field_values][1]' do
+      assert_select 'option', 2
+      assert_select 'option[value=1]', :text => 'Cat. 1"'
+      assert_select 'option[value=2]', :text => 'Cat. 2"'
     end
-=end
   end
 
+  # TODO Prio 2
   def test_get_new_with_multi_custom_field
 =begin
     field = IssueCustomField.find(1)
@@ -351,40 +376,42 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # DONE
   def test_post_create
-=begin
     @request.session[:user_id] = 2
+
     assert_difference 'Issue.count' do
       assert_no_difference 'Journal.count' do
         post :create, :params => {
             :project_id => 1,
             :issue => {
-              :tracker_id => 3,
+              :tracker_id => 1,
               :status_id => 2,
               :subject => 'This is the test_new issue',
               :description => 'This is the description',
               :priority_id => 5,
-              :start_date => '2010-11-07',
+              :start_date => '2019-11-13',
               :estimated_hours => '',
               :custom_field_values => {
-              '2' => 'Value for field 2'}
+              '1' => '1'}
             }
           }
       end
     end
+
     assert_redirected_to :controller => 'issues', :action => 'show', :id => Issue.last.id
 
     issue = Issue.find_by_subject('This is the test_new issue')
     assert_not_nil issue
     assert_equal 2, issue.author_id
-    assert_equal 3, issue.tracker_id
+    assert_equal 1, issue.tracker_id
     assert_equal 2, issue.status_id
-    assert_equal Date.parse('2010-11-07'), issue.start_date
+    assert_equal Date.parse('2010-11-13'), issue.start_date
     assert_nil issue.estimated_hours
-    v = issue.custom_values.where(:custom_field_id => 2).first
+    # The important part
+    v = issue.custom_values.where(:custom_field_id => 1).first
     assert_not_nil v
-    assert_equal 'Value for field 2', v.value
-=end
+    assert_equal '1', v.value
   end
 
   def test_post_create_without_custom_fields_param
@@ -405,6 +432,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # TODO Prio 3
   def test_post_create_with_multi_custom_field
 =begin
     field = IssueCustomField.find_by_name('Database')
@@ -430,6 +458,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # TODO Prio 3
   def test_post_create_with_empty_multi_custom_field
 =begin
     field = IssueCustomField.find_by_name('Database')
@@ -456,6 +485,7 @@ class IssuesControllerTest < Redmine::ControllerTest
   end
 
 
+  # TODO Prio 3
   def test_create_should_validate_required_list_fields
 =begin
     cf1 = IssueCustomField.create!(:name => 'Foo', :field_format => 'list', :is_for_all => true, :tracker_ids => [1, 2], :multiple => false, :possible_values => ['a', 'b'])
@@ -488,6 +518,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # TODO Prio 2
   def test_get_edit
 =begin
     @request.session[:user_id] = 2
@@ -505,6 +536,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # TODO Prio 3
   def test_get_edit_with_params
 =begin
     @request.session[:user_id] = 2
@@ -538,6 +570,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # TODO Prio 3
   def test_get_edit_with_multi_custom_field
 =begin
     field = CustomField.find(1)
@@ -581,6 +614,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # TODO Prio 3
   def test_update_form_should_keep_category_with_same_when_changing_project
 =begin
     source = Project.generate!
@@ -605,6 +639,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # TODO Prio 2
   def test_put_update_with_custom_field_change
 =begin
     @request.session[:user_id] = 2
@@ -636,6 +671,7 @@ class IssuesControllerTest < Redmine::ControllerTest
 =end
   end
 
+  # TODO Prio 3
   def test_put_update_with_multi_custom_field_change
 =begin
     field = CustomField.find(1)
