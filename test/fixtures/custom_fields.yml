@@ -12,6 +12,11 @@ custom_fields_001:
   searchable: true
   editable: true
   position: 1
+  format_store: |-
+    ---
+    :version_status:
+    - open
+    :edit_tag_style: ''
 custom_fields_002:
   name: Project CF Enum 2
   regexp: ""
