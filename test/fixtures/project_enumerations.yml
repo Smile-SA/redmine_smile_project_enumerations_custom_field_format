@@ -18,7 +18,7 @@ project_enumerations_cf1_003:
   project_id: 1
   custom_field_id: 1
   value: "Cat. 3"
-  status: open
+  status: closed
   sharing: "descendants"
 project_enumerations_cf2_004:
   id: 4
