@@ -177,10 +177,10 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     assert_response :success
 
-    assert_select 'select.project_enumeration_cf[name=?]', 'issue[custom_field_values][1]' do
+    assert_select 'select.project_enumeration_cf[name=?]', 'issue[custom_field_values][1][]' do
       assert_select 'option', 2
-      assert_select 'option[value=1]', :text => 'Cat. 1"'
-      assert_select 'option[value=3]', :text => 'Cat. 3"'
+      assert_select 'option[value=1]', :text => 'Cat. 1'
+      assert_select 'option[value=2]', :text => 'Cat. 2'
     end
 
 
@@ -195,11 +195,10 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     assert_response :success
 
-    assert_select 'select.project_enumeration_cf[name=?]', 'issue[custom_field_values][1]' do
-      assert_select 'option', 3
-      assert_select 'option[value=1]', :text => 'Cat. 1"'
-      assert_select 'option[value=2]', :text => 'Cat. 2"'
-      assert_select 'option[value=3]', :text => 'Cat. 3"'
+    assert_select 'select.project_enumeration_cf[name=?]', 'issue[custom_field_values][1][]' do
+      assert_select 'option', 2
+      assert_select 'option[value=1]', :text => 'Cat. 1'
+      assert_select 'option[value=2]', :text => 'Cat. 2'
     end
   end
 
@@ -260,12 +259,12 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     assert_response :success
 
-    assert_select ".cf_1 .value", :text => "#{@cf1_value1}, #{@cf1_value2}, #{@cf1_value3}"
+    assert_select ".cf_1 .value", :text => "#{@cf1_value1}, #{@cf1_value2}"
     assert_select ".cf_2 .value", :text => ''
 
 
     issue1 = Issue.find(1)
-    issue1.custom_field_values = {1 => [1, 3]}
+    issue1.custom_field_values = {1 => [1, 2]}
     issue1.save!
 
 
@@ -274,7 +273,7 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     assert_response :success
 
-    assert_select ".cf_1 .value", :text => "#{@cf1_value1}, #{@cf1_value3}"
+    assert_select ".cf_1 .value", :text => "#{@cf1_value1}, #{@cf1_value2}"
   end
 
   # DONE
@@ -287,7 +286,8 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     assert_response :success
 
-    assert_select ".cf_1 .value", :text => @cf1_value3
+    # Last one kept
+    assert_select ".cf_1 .value", :text => @cf1_value2
 
 
     issue1 = Issue.find(1)
@@ -348,10 +348,12 @@ class IssuesControllerTest < Redmine::ControllerTest
       }
     assert_response :success
 
-    assert_select 'select.project_enumeration_cf[name=?]', 'issue[custom_field_values][1]' do
-      assert_select 'option', 2
-      assert_select 'option[value=1]', :text => 'Cat. 1"'
-      assert_select 'option[value=2]', :text => 'Cat. 2"'
+    # To test html generated
+    # @response.parsed_body
+    assert_select 'select.project_enumeration_cf[name=?]', 'issue[custom_field_values][1][]' do
+      assert_select 'option', 1
+      assert_select 'option[value="1"]', :text => 'Cat. 1'
+      # value 2 locked, value 3 closed
     end
   end
 
@@ -406,7 +408,7 @@ class IssuesControllerTest < Redmine::ControllerTest
     assert_equal 2, issue.author_id
     assert_equal 1, issue.tracker_id
     assert_equal 2, issue.status_id
-    assert_equal Date.parse('2010-11-13'), issue.start_date
+    assert_equal Date.parse('2019-11-13'), issue.start_date
     assert_nil issue.estimated_hours
     # The important part
     v = issue.custom_values.where(:custom_field_id => 1).first
