@@ -13,8 +13,12 @@ that allows to have **Enumerations** whose values are
 
 * Adds a new premission : **manage_project_enumerations**
 
-This permissions allow to edit Project Enumerations values for the project.
-When a user has this permission a new tab appears in the Project Settings.
+  This permissions allow to edit Project Enumerations values for the project.
+  When a user has this permission a new tab appears in the Project Settings.
+
+* Manages Enumeration **status** like for Versions
+
+  If Enumeration is **locked** or **closed**, possible value will not be present in the dropdown list (depends on the Custom Field status configuration).
 
 * Tested with **Redmine V4.0.3**
 
@@ -32,12 +36,12 @@ When a user has this permission a new tab appears in the Project Settings.
 
 * Test with other than Issue Custom Field (Project, ...)
 * Add Admin view for all Project Enumerations
-* Use status column, or remove it
-* Add Tests (in progress)
+* Add more Tests
 * Fix TODOS
 
 # Changelog
 
+* **V1.0.5**  Tests added on issue edit, disabled possible values (locked, closed)
 * **V1.0.4**  Tests added on issue show
 * **V1.0.3**  Tests initialized
 
