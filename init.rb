@@ -12,6 +12,8 @@ Rails.logger.info "o=>Application user : #{ENV['USER']}"
 plugin_name = :redmine_smile_project_enumerations_custom_field_format
 plugin_root = File.dirname(__FILE__)
 
+# lib/not_reloaded
+require plugin_root + '/lib/not_reloaded/smile_tools'
 
 Redmine::Plugin.register plugin_name do
   ########################
