@@ -34,8 +34,8 @@ module Redmine
       protected
 
       def query_filter_values(custom_field, query)
-        versions = possible_values_enumerations(custom_field, query.project, true)
-        ProjectEnumeration.sort_by_status(versions).collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s, l("version_status_#{s.status}")] }
+        project_enumerations = possible_values_enumerations(custom_field, query.project, true)
+        ProjectEnumeration.sort_by_status(project_enumerations).collect{|s| ["#{s.project.name} - #{s.name}", s.id.to_s, l("version_status_#{s.status}")] }
       end
 
       def possible_values_enumerations(custom_field, object=nil, all_statuses=false)
