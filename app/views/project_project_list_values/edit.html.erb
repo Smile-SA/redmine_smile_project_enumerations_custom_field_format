@@ -1,0 +1,7 @@
+<h2><%=l(:label_project_list_value)%></h2>
+
+<%= labelled_form_for @project_list_value, :url => {:controller => :project_project_list_values, :action => :update, :id => @project_list_value.id}, :html => {:multipart => true} do |f| %>
+<%= render :partial => 'form', :locals => { :f => f } %>
+<%= submit_tag l(:button_save) %>
+<% end %>
+

@@ -1,0 +1,84 @@
+<%
+  if User.current.allowed_to?(:manage_project_enumerations, @project)
+-%>
+<p>
+<%
+    @list_value_custom_fields_options.each do |cf_name, cf_id|
+-%>
+  <%= link_to "#{ l(:label_project_list_value_new) } (#{cf_name})", new_project_project_list_values_path(@project, :custom_field_id => cf_id, :back_url => ''), :class => 'icon icon-add' %><br/>
+
+<%
+    end
+-%>
+</p>
+<%
+  end
+-%>
+
+<% if @project_list_values.any? %>
+  <div class="contextual">
+  </div>
+<% end %>
+<%= form_tag(settings_project_path(@project, :tab => 'project_list_values'), :method => :get) do %>
+<fieldset><legend><%= l(:label_filter_plural) %></legend>
+
+<label for='list_value_custom_field'><%= l(:label_custom_field) %>:</label>
+<%= select_tag 'list_value_custom_field_id', options_for_select([[l(:label_all), '']] + @list_value_custom_fields_options, @list_value_custom_field_id), :onchange => "this.form.submit(); return false;" %>
+
+&nbsp;<label for='list_value_value'><%= l(:label_project_list_value_value) %>:</label>
+<%= text_field_tag 'list_value_value', @list_value_value, :size => 30 %>
+
+&nbsp;<label for='list_value_status'><%= l(:field_status) %>:</label>
+<%= select_tag 'list_value_status', options_for_select([[l(:label_all), '']] + ProjectEnumeration::ENUMERATION_STATUSES.collect {|s| [l("version_status_#{s}"), s]}, @list_value_status), :onchange => "this.form.submit(); return false;" %>
+
+&nbsp;<label for='list_value_sharing'><%= l(:field_sharing) %>:</label>
+<%= select_tag 'list_value_sharing', options_for_select([[l(:label_all), '']] + ProjectEnumeration::ENUMERATION_SHARINGS.collect {|s| [l("label_version_sharing_#{s}"), s]}, @list_value_sharing), :onchange => "this.form.submit(); return false;" %>
+
+<%= submit_tag l(:button_apply), :name => nil %>
+<%= link_to l(:button_clear), settings_project_path(@project, :tab => 'project_list_values'), :class => 'icon icon-reload' %>
+</fieldset>
+<% end %>
+&nbsp;
+
+<% if @project_list_values.present? %>
+<table class="list list_values">
+  <thead><tr>
+    <th><%= l(:label_custom_field) %></th>
+    <th><%= l(:label_project_list_value_value) %></th>
+    <th><%= l(:field_status) %></th>
+    <th><%= l(:field_sharing) %></th>
+    <th style="width:15%"></th>
+    </tr></thead>
+  <tbody>
+<%
+    @project_list_values.each do |project_list_value|
+      shared_list_value = (project_list_value.project != @project)
+-%>
+    <tr class="project_list_value <%= project_list_value.status %> <%= 'shared' if shared_list_value %>">
+      <td class="custom_field"><%= custom_field_name_tag(project_list_value.custom_field) %></td>
+
+      <td class="value <%= 'icon icon-shared' if shared_list_value %>"><%= project_list_value %></td>
+
+      <td class="status"><%= l("version_status_#{project_list_value.status}") %></td>
+<%
+  # TODO add format_list_value_sharing
+-%>
+      <td class="sharing"><%= format_version_sharing(project_list_value.sharing) %></td>
+
+      <td class="buttons">
+<%
+      if !shared_list_value && User.current.allowed_to?(:manage_project_enumerations, @project)
+-%>
+        <%= link_to l(:button_edit), edit_project_project_list_values_path(@project, :id => project_list_value), :class => 'icon icon-edit' %>
+        <%= delete_link project_project_list_values_path(@project, :id => project_list_value) %>
+<%
+      end
+-%>
+     </td>
+    </tr>
+<% end %>
+    </tbody>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
