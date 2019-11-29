@@ -56,6 +56,10 @@ class ProjectEnumeration < ActiveRecord::Base
   scope :order_by_custom_field_then_value, lambda { joins(:custom_field).order('custom_fields.name, value') }
 
 
+  scope :for_enumerations, lambda { joins(:custom_field).where('custom_fields.field_format' => 'project_enumeration') }
+
+  scope :for_list_values, lambda { joins(:custom_field).where('custom_fields.field_format' => 'project_list_value') }
+
   safe_attributes 'value',
     'status',
     'sharing',

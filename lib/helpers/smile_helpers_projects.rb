@@ -36,6 +36,11 @@ module Smile
 
               if index
                 tabs.insert(index,
+                            {:name => 'project_list_values', :action => :edit_project_list_values,
+                             :partial => 'projects/settings/project_list_values',
+                             :label => :label_project_list_value_plural})
+
+                tabs.insert(index,
                             {:name => 'project_enumerations', :action => :edit_project_enumerations,
                              :partial => 'projects/settings/project_enumerations',
                              :label => :label_project_enumeration_plural})

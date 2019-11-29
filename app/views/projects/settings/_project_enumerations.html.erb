@@ -1,7 +1,3 @@
-<% if @project_enumerations.any? %>
-  <div class="contextual">
-  </div>
-<% end %>
 <%
   if User.current.allowed_to?(:manage_project_enumerations, @project)
 -%>
@@ -18,6 +14,11 @@
 <%
   end
 -%>
+
+<% if @project_enumerations.any? %>
+  <div class="contextual">
+  </div>
+<% end %>
 <%= form_tag(settings_project_path(@project, :tab => 'project_enumerations'), :method => :get) do %>
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
 

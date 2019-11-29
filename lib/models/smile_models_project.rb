@@ -14,6 +14,7 @@ module Smile
         def self.prepended(base)
           project_enumeration_methods = [
             :shared_enumerations, # 1/ new method
+            :shared_list_values,  # 2/ new method
           ]
 
           trace_prefix = "#{' ' * (base.name.length + 25)}  --->  "
@@ -64,7 +65,34 @@ module Smile
               r = root? ? self : root
               ::ProjectEnumeration.
                 joins(:project).
-                preload(:project).
+                preload(:project, :custom_field).
+                for_enumerations.
+                where("#{Project.table_name}.id = #{id}" +
+                        " OR (#{Project.table_name}.status <> #{::Project::STATUS_ARCHIVED} AND (" +
+                          " #{::ProjectEnumeration.table_name}.sharing = 'system'" +
+                          " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{::ProjectEnumeration.table_name}.sharing = 'tree')" +
+                          " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{::ProjectEnumeration.table_name}.sharing IN ('hierarchy', 'descendants'))" +
+                          " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{::ProjectEnumeration.table_name}.sharing = 'hierarchy')" +
+                        "))")
+            end
+          end
+        end
+
+        # 2/ new method, RM 4.0.3 OK
+        # Returns a scope of the List Values used by the project
+        def shared_list_values
+          if new_record?
+            ::ProjectEnumeration.
+              joins(:project).
+              preload(:project).
+              where("#{Project.table_name}.status <> ? AND #{::ProjectEnumeration.table_name}.sharing = 'system'", ::Project::STATUS_ARCHIVED)
+          else
+            @shared_list_values ||= begin
+              r = root? ? self : root
+              ::ProjectEnumeration.
+                joins(:project).
+                preload(:project, :custom_field).
+                for_list_values.
                 where("#{Project.table_name}.id = #{id}" +
                         " OR (#{Project.table_name}.status <> #{::Project::STATUS_ARCHIVED} AND (" +
                           " #{::ProjectEnumeration.table_name}.sharing = 'system'" +
