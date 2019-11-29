@@ -34,7 +34,12 @@ Redmine::Plugin.register plugin_name do
     :partial => "settings/#{plugin_name}"
 
   project_module :issue_tracking do
-    permission :manage_project_enumerations, {:projects => :settings, :project_project_enumerations => [:new, :create, :edit, :update, :destroy]}, :require => :member
+    permission :manage_project_enumerations, {
+      :projects => :settings,
+      :project_project_list_values => [:new, :create, :edit, :update, :destroy],
+      :project_project_enumerations => [:new, :create, :edit, :update, :destroy]
+    },
+    :require => :member
   end
 end # Redmine::Plugin.register ...
 
@@ -92,6 +97,7 @@ rails_dispatcher.to_prepare do
   required = [
     # lib/
     '/lib/project_enumeration_field_format',
+    '/lib/project_list_value_field_format',
 
     # lib/controllers
     '/lib/controllers/smile_controllers_projects',

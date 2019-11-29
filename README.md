@@ -25,12 +25,14 @@ that allows to have **Enumerations** whose values are
 ## How it is implemented
 
 - Adds new **Redmine::FieldFormat::ProjectEnumerationFormat** derived form **RecordList**
+- Adds new **Redmine::FieldFormat::ProjectListValueFormat** derived form **RecordList**
 
 - 🔑 Extends Projects Controller **settings** action
 
 - 🔑 Extends Projects Helper **project_settings_tabs** method
 
 - Adds new Project **shared_enumerations** method
+- Adds new Project **shared_list_values** method
 
 # TODOs
 
