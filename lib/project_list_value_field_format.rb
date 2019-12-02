@@ -21,7 +21,7 @@ module Redmine
       field_attributes :version_status
 
       def possible_values_options(custom_field, object=nil)
-        possible_values_list_values(custom_field, object).sort.collect{|v| [v.to_s, v.id.to_s] }
+        possible_values_list_values(custom_field, object).sort.collect{|v| [v.to_s, v.to_s] }
       end
 
       def before_custom_field_save(custom_field)
@@ -35,11 +35,15 @@ module Redmine
         @target_class ||= ProjectEnumeration
       end
 
+      def cast_single_value(custom_field, value, customized=nil)
+        value.to_s
+      end
+
       protected
 
       def query_filter_values(custom_field, query)
         project_list_values = possible_values_list_values(custom_field, query.project, true)
-        ProjectEnumeration.sort_by_status(project_list_values).collect{|s| ["#{s.project.name} - #{s.name}", s.value, l("version_status_#{s.status}")] }
+        ProjectEnumeration.sort_by_status(project_list_values).collect{|s| ["#{s.project.name} - #{s.name}", s.to_s, l("version_status_#{s.status}")] }
       end
 
       def possible_values_list_values(custom_field, object=nil, all_statuses=false)
