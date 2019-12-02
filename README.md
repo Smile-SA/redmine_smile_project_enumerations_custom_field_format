@@ -10,10 +10,12 @@ that allows to have **Enumerations** whose values are
 ## What it does
 
 * Adds a new value in the CustomFiels types : **Project Enumeration**
-To manage a Key / Value list whose possible values are configured in the project
+
+To manage a Key / Value list whose possible values are configured in the project.
 The key is stored in the custom_values table
 * Adds a new value in the CustomFiels types : **Project Values List**
-To manage a Values Lst whose possible values are configured in the project
+
+To manage a Values List whose possible values are configured in the project.
 The value is stored in the custom_values table
 
 * Adds a new premission : **manage_project_enumerations**
@@ -29,18 +31,21 @@ The value is stored in the custom_values table
 
 ## How it is implemented
 
-- Adds new **Redmine::FieldFormat::ProjectEnumerationFormat** derived form **RecordList**
-- Adds new **Redmine::FieldFormat::ProjectListValueFormat** derived form **RecordList**
+- Adds new **FieldFormat** derived form **RecordList**
+  - **Redmine::FieldFormat::ProjectEnumerationFormat**
+- - **Redmine::FieldFormat::ProjectListValueFormat**
 
 - 🔑 Extends Projects Controller **settings** action
 
 - 🔑 Extends Projects Helper **project_settings_tabs** method
 
-- Adds new Project **shared_enumerations** method
-- Adds new Project **shared_list_values** method
+- Adds new methods to **Project** model
+  - **shared_enumerations**
+  - **shared_list_values**
 
-- Adds new **ProjectProjectEnumerationsController** Controller
-- Adds new **ProjectProjectListValuesController** Controller
+- Adds new **Controller**
+  - **ProjectProjectEnumerationsController**
+  - **ProjectProjectListValuesController**
 
 - Adds new **Views**
   - for **possible values** CRUD **edition**
