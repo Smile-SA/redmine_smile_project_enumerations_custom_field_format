@@ -20,10 +20,12 @@ The value is stored in the custom_values table
 
 * Adds a new permission : **manage_project_enumerations**
 
-  This permissions allow to edit Project Enumerations values for the project.
-  When a user has this permission a new tab appears in the Project Settings.
+  This permission allows to edit Project Enumerations values for the project.
+  When a user has this permission a 2 new tabs appear in the Project Settings (depending if Custom Fields of the new type exist or not)
+  - **Project Enumerations**
+  - **Project List of Values**
 
-* Manages Enumeration **status** like for Versions
+* Manages Enumeration **statuses** like for Versions
 
   If Enumeration is **locked** or **closed**, possible value will not be present in the dropdown list (depends on the Custom Field status configuration).
 
