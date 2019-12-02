@@ -21,11 +21,11 @@ The value is stored in the custom_values table
 * Adds a new permission : **manage_project_enumerations**
 
   This permission allows to edit Project Enumerations values for the project.
-  When a user has this permission a 2 new tabs appear in the Project Settings (depending if Custom Fields of the new type exist or not)
+  When a user has this permission 2 new tabs appear in the Project Settings (depending if Custom Fields of the new type exist or not)
   - **Project Enumerations**
   - **Project List of Values**
 
-* Manages Enumeration **statuses** like for Versions
+* Manages Enumeration **statuses** like for Versions :
 
   If Enumeration is **locked** or **closed**, possible value will not be present in the dropdown list (depends on the Custom Field status configuration).
 
@@ -35,7 +35,7 @@ The value is stored in the custom_values table
 
 - Adds new **FieldFormat** derived form **RecordList**
   - **Redmine::FieldFormat::ProjectEnumerationFormat**
-- - **Redmine::FieldFormat::ProjectListValueFormat**
+  - **Redmine::FieldFormat::ProjectListValueFormat**
 
 - 🔑 Extends Projects Controller **settings** action
 
