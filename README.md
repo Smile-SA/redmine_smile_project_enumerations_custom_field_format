@@ -11,17 +11,17 @@ that allows to have **Enumerations** whose values are
 
 * Adds a new value in the CustomFiels types : **Project Enumeration**
 
-To manage a Key / Value list whose possible values are configured in the project.
+To manage a **Key / Value list** whose possible values are configured in the project.
 The key is stored in the custom_values table
 * Adds a new value in the CustomFiels types : **Project Values List**
 
-To manage a Values List whose possible values are configured in the project.
+To manage a **Values list** whose possible values are configured in the project.
 The value is stored in the custom_values table
 
 * Adds a new permission : **manage_project_enumerations**
 
   This permission allows to edit Project Enumerations values for the project.
-  When a user has this permission 2 new tabs appear in the Project Settings (depending if Custom Fields of the new type exist or not)
+  When a user has this permission, 2 new tabs appear in the Project Settings (depending if Custom Fields of the new type exist or not)
   - **Project Enumerations**
   - **Project List of Values**
 
