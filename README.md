@@ -18,7 +18,7 @@ The key is stored in the custom_values table
 To manage a Values List whose possible values are configured in the project.
 The value is stored in the custom_values table
 
-* Adds a new premission : **manage_project_enumerations**
+* Adds a new permission : **manage_project_enumerations**
 
   This permissions allow to edit Project Enumerations values for the project.
   When a user has this permission a new tab appears in the Project Settings.
