@@ -10,6 +10,11 @@ that allows to have **Enumerations** whose values are
 ## What it does
 
 * Adds a new value in the CustomFiels types : **Project Enumeration**
+To manage a Key / Value list whose possible values are configured in the project
+The key is stored in the custom_values table
+* Adds a new value in the CustomFiels types : **Project Values List**
+To manage a Values Lst whose possible values are configured in the project
+The value is stored in the custom_values table
 
 * Adds a new premission : **manage_project_enumerations**
 
@@ -34,15 +39,27 @@ that allows to have **Enumerations** whose values are
 - Adds new Project **shared_enumerations** method
 - Adds new Project **shared_list_values** method
 
+- Adds new **ProjectProjectEnumerationsController** Controller
+- Adds new **ProjectProjectListValuesController** Controller
+
+- Adds new **Views**
+  - for **possible values** CRUD **edition**
+    - in **views/project_project_enumerations**
+    - in **views/project_list_values**
+  - for **Custom Field** **Configuration**
+    - in **views/custom_fields/formats**
+
 # TODOs
 
 * Test with other than Issue Custom Field (Project, ...)
 * Add Admin view for all Project Enumerations
+* Add possibility to **sort** Project Enumeration **possible values**
 * Add more Tests
 * Fix TODOS
 
 # Changelog
 
+* **V1.0.6**  New Project List of Values type added
 * **V1.0.5**  Tests added on issue edit, disabled possible values (locked, closed)
 * **V1.0.4**  Tests added on issue show
 * **V1.0.3**  Tests initialized
