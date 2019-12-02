@@ -7,3 +7,8 @@ en:
   label_project_enumeration_plural: Project Enumerations
   label_project_enumeration_new: New Project Enumeration value
   permission_manage_project_enumeration: Manage Project Enumerations
+
+  label_project_list_value: Project List of Values
+  label_project_list_value_value: Value
+  label_project_list_value_plural: Project Lists of Values
+  label_project_list_value_new: New Project List of Values
