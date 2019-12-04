@@ -34,7 +34,7 @@ class ProjectProjectEnumerationsController < ApplicationController
 
 
   def index
-    find_project_enumerations
+    find_project_enumerations_for_custom_field(@custom_field.id)
 
     @project_enumeration = ProjectEnumeration.new(
         :project_id => @project.id,
@@ -76,7 +76,7 @@ class ProjectProjectEnumerationsController < ApplicationController
             redirect_back_or_default settings_project_path(@project, :tab => 'project_enumerations')
           end
           format.js {
-            find_project_enumerations
+            find_project_enumerations_for_custom_field(@custom_field.id)
             render :action => 'create'
           }
           format.api do
@@ -87,7 +87,7 @@ class ProjectProjectEnumerationsController < ApplicationController
         respond_to do |format|
           format.html { render :action => 'new' }
           format.js   {
-            find_project_enumerations
+            find_project_enumerations_for_custom_field(@custom_field.id)
             render :action => 'create'
           }
           format.api  { render_validation_errors(@project_enumeration) }
@@ -167,8 +167,14 @@ protected
     render_404
   end
 
-  def find_project_enumerations
-    @project_enumerations = ProjectEnumeration.where(:project_id => @project.id).for_enumerations #.order_by_custom_field_then_value
+  def find_project_enumerations_for_custom_field(custom_field_id)
+    enumeration_custom_field_ids_for_project = CustomField.for_project(@project).where(:field_format => 'project_enumeration').pluck(:custom_field_id)
+
+    if enumeration_custom_field_ids_for_project.include?(custom_field_id)
+      @project_enumerations = ProjectEnumeration.where(:custom_field_id => custom_field_id).where(:project_id => @project.id).for_enumerations.to_a #.order_by_custom_field_then_value
+    else
+      @project_enumerations = []
+    end
   end
 
   def update_each_params
