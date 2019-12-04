@@ -58,11 +58,19 @@
 <%
     @project_enumerations.each do |project_enumeration|
       shared_enumeration = (project_enumeration.project != @project)
+      if shared_enumeration
+        project_enumeration_value = project_enumeration.to_s +
+          ':&nbsp;&nbsp;(' +
+          link_to("#{l(:field_project)}&nbsp;:&nbsp;#{project_enumeration.project.name}".html_safe, project_project_enumerations_path(project_enumeration.project, :custom_field_id =>project_enumeration.custom_field_id)).html_safe +
+          ')'.html_safe
+      else
+        project_enumeration_value = project_enumeration.to_s
+      end
 -%>
     <tr class="project_enumeration <%= project_enumeration.status %> <%= 'shared' if shared_enumeration %>">
       <td class="custom_field"><%= custom_field_name_tag(project_enumeration.custom_field) %></td>
 
-      <td class="value <%= 'icon icon-shared' if shared_enumeration %>"><%= project_enumeration %></td>
+      <td class="value <%= 'icon icon-shared' if shared_enumeration %>"><%= raw project_enumeration_value %></td>
 
       <td class="status"><%= l("version_status_#{project_enumeration.status}") %></td>
 <%
