@@ -12,9 +12,5 @@ resources :projects do
     end
   end
 
-  resource :project_list_values, :controller => 'project_project_list_values', :only => [:new, :create, :edit, :update, :destroy] do
-    collection do
-      get 'index'
-    end
-  end
+  resource :project_list_values, :controller => 'project_project_list_values', :only => [:new, :create, :edit, :update, :destroy]
 end
