@@ -36,8 +36,8 @@ Redmine::Plugin.register plugin_name do
   project_module :issue_tracking do
     permission :manage_project_enumerations, {
       :projects => :settings,
-      :project_project_list_values => [:index, :new, :create, :edit, :update, :destroy],
-      :project_project_enumerations => [:index, :new, :create, :edit, :update, :destroy]
+      :project_project_list_values => [:index, :new, :create, :edit, :update, :update_each, :destroy],
+      :project_project_enumerations => [:index, :new, :create, :edit, :update, :update_each, :destroy]
     },
     :require => :member
   end
@@ -107,6 +107,7 @@ rails_dispatcher.to_prepare do
 
     # lib/models
     '/lib/models/smile_models_project',
+    '/lib/models/smile_models_custom_field',
   ]
 
   if Rails.env == "development"
@@ -165,6 +166,7 @@ rails_dispatcher.to_prepare do
   # **** 6.3/ Models ****
   Rails.logger.info "o=>----- MODELS"
   prepend_in(Project, Smile::Models::ProjectOverride::ProjectEnumerations)
+  prepend_in(CustomField, Smile::Models::CustomFieldOverride::ProjectEnumerations)
 
 
   # keep traces if classes / modules are reloaded
