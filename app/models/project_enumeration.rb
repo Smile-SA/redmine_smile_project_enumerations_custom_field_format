@@ -55,6 +55,8 @@ class ProjectEnumeration < ActiveRecord::Base
 
   scope :order_by_custom_field_then_value, lambda { joins(:custom_field).order('custom_fields.name, value') }
 
+  scope :order_by_custom_field_then_position, lambda { joins(:custom_field).order('custom_fields.name, position') }
+
   scope :for_project, lambda { |project|
     joins(:custom_field).
     joins("LEFT JOIN #{table_name_prefix}custom_fields_projects#{table_name_suffix} AS cfp ON cfp.custom_field_id = #{CustomField.table_name}.id").
@@ -68,7 +70,8 @@ class ProjectEnumeration < ActiveRecord::Base
   safe_attributes 'value',
     'status',
     'sharing',
-    'custom_field_id'
+    'custom_field_id',
+    'position'
 
   # Returns true if +user+ or current user is allowed to view the enumerations
   def visible?(user=User.current)
