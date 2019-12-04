@@ -1,5 +1,19 @@
 resources :projects do
-  resource :project_enumerations, :controller => 'project_project_enumerations', :only => [:new, :create, :edit, :update, :destroy]
+  resource :project_enumerations, :controller => 'project_project_enumerations', :only => [:new, :edit] do
+    collection do
+      get 'index'
+    end
 
-  resource :project_list_values, :controller => 'project_project_list_values', :only => [:new, :create, :edit, :update, :destroy]
+    member do
+      post 'create', :as => 'create'
+      patch 'update', :as => 'update'
+      delete 'destroy', :as => 'destroy'
+    end
+  end
+
+  resource :project_list_values, :controller => 'project_project_list_values', :only => [:new, :create, :edit, :update, :destroy] do
+    collection do
+      get 'index'
+    end
+  end
 end
