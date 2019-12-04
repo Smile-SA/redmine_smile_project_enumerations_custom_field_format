@@ -16,13 +16,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 class ProjectProjectEnumerationsController < ApplicationController
-  menu_item :issues
+  menu_item :settings
   model_object ProjectEnumeration
 
-  before_action :find_model_object, :except => [:new, :create]
-  before_action :find_project_from_association, :except => [:new, :create]
-  before_action :find_project_by_project_id, :only => [:new, :create]
-  before_action :find_custom_field_by_custom_field_id, :only => [:new, :create]
+  before_action :find_model_object, :except => [:index, :new, :create]
+  before_action :find_project_from_association, :except => [:index, :new, :create]
+  before_action :find_project_by_project_id, :only => [:index, :new, :create]
+  before_action :find_custom_field_by_custom_field_id, :only => [:index, :new, :create]
 
   before_action :authorize
 
@@ -30,8 +30,17 @@ class ProjectProjectEnumerationsController < ApplicationController
   # TODO create API views
   accept_api_auth :create, :update, :destroy
 
-  helper :projects
+  helper :projects, :custom_fields
 
+
+  def index
+    @project_enumerations = ::ProjectEnumeration.where(:project_id => @project.id).for_enumerations #.order_by_custom_field_then_value
+
+    @project_enumeration = ProjectEnumeration.new(
+        :project_id => @project.id,
+        :custom_field_id => @custom_field.id
+      )
+  end
 
   def new
     @project_enumeration = ProjectEnumeration.new(
@@ -116,7 +125,7 @@ class ProjectProjectEnumerationsController < ApplicationController
     respond_to do |format|
       format.html {
         flash[:notice] = l(:notice_successful_delete)
-        redirect_back_or_default settings_project_path(@project, :tab => 'project_enumerations')
+        redirect_back_or_default project_project_enumerations_path(@project, :custom_field_id => @custom_field)
       }
       format.api  { render_api_ok }
     end
