@@ -58,8 +58,10 @@ module Smile
           if new_record?
             ::ProjectEnumeration.
               joins(:project).
-              preload(:project).
-              where("#{Project.table_name}.status <> ? AND #{::ProjectEnumeration.table_name}.sharing = 'system'", ::Project::STATUS_ARCHIVED)
+              preload(:project, :custom_field).
+              where("#{Project.table_name}.status <> ? AND #{::ProjectEnumeration.table_name}.sharing = 'system'", ::Project::STATUS_ARCHIVED).
+              for_enumerations.
+              order_by_custom_field_then_position
           else
             @shared_enumerations ||= begin
               r = root? ? self : root
@@ -73,7 +75,8 @@ module Smile
                           " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{::ProjectEnumeration.table_name}.sharing = 'tree')" +
                           " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{::ProjectEnumeration.table_name}.sharing IN ('hierarchy', 'descendants'))" +
                           " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{::ProjectEnumeration.table_name}.sharing = 'hierarchy')" +
-                        "))")
+                        "))").
+                order_by_custom_field_then_position
             end
           end
         end
@@ -84,7 +87,8 @@ module Smile
           if new_record?
             ::ProjectEnumeration.
               joins(:project).
-              preload(:project).
+              preload(:project, :custom_field).
+              for_list_values.
               where("#{Project.table_name}.status <> ? AND #{::ProjectEnumeration.table_name}.sharing = 'system'", ::Project::STATUS_ARCHIVED)
           else
             @shared_list_values ||= begin
