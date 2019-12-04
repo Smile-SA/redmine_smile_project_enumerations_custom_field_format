@@ -5,7 +5,10 @@
 <%
     @enumeration_custom_fields_options.each do |cf_name, cf_id|
 -%>
-  <%= link_to "#{ l(:label_enumeration_new) } (#{cf_name})", new_project_project_enumerations_path(@project, :custom_field_id => cf_id, :back_url => ''), :class => 'icon icon-add' %><br/>
+  <b><%= cf_name %></b> :
+  <%= link_to "#{ l(:label_enumeration_new) }", project_project_enumerations_path(@project, :custom_field_id => cf_id, :back_url => ''), :class => 'icon icon-add' %>
+  <%= link_to "#{ l(:label_project_enumeration_edit_values) }", project_project_enumerations_path(@project, :custom_field_id => cf_id, :back_url => ''), :class => 'icon icon-edit' %>
+  <br/>
 
 <%
     end
