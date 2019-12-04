@@ -19,10 +19,10 @@ class ProjectProjectEnumerationsController < ApplicationController
   menu_item :settings
   model_object ProjectEnumeration
 
-  before_action :find_model_object, :except => [:index, :new, :create]
-  before_action :find_project_from_association, :except => [:index, :new, :create]
-  before_action :find_project_by_project_id, :only => [:index, :new, :create]
-  before_action :find_custom_field_by_custom_field_id, :only => [:index, :new, :create]
+  before_action :find_model_object, :except => [:index, :new, :create, :update_each]
+  before_action :find_project_from_association, :except => [:index, :new, :create, :update_each]
+  before_action :find_project_by_project_id, :only => [:index, :new, :create, :update_each]
+  before_action :find_custom_field_by_custom_field_id, :only => [:index, :new, :create, :update_each]
 
   before_action :authorize
 
@@ -34,7 +34,7 @@ class ProjectProjectEnumerationsController < ApplicationController
 
 
   def index
-    @project_enumerations = ::ProjectEnumeration.where(:project_id => @project.id).for_enumerations #.order_by_custom_field_then_value
+    find_project_enumerations
 
     @project_enumeration = ProjectEnumeration.new(
         :project_id => @project.id,
@@ -59,13 +59,11 @@ class ProjectProjectEnumerationsController < ApplicationController
   def create
     @project_enumeration = ProjectEnumeration.new(
         :project_id => @project.id,
+        :custom_field_id => @custom_field.id
       )
-
     if params[:project_enumeration]
       attributes = params[:project_enumeration].dup
       attributes.delete('sharing') unless attributes.nil? || @project_enumeration.allowed_sharings.include?(attributes['sharing'])
-
-      @project_enumeration.custom_field_id = @custom_field.id
 
       @project_enumeration.safe_attributes = attributes
     end
@@ -77,7 +75,10 @@ class ProjectProjectEnumerationsController < ApplicationController
             flash[:notice] = l(:notice_successful_create)
             redirect_back_or_default settings_project_path(@project, :tab => 'project_enumerations')
           end
-          format.js
+          format.js {
+            find_project_enumerations
+            render :action => 'create'
+          }
           format.api do
             render :action => 'show', :status => :created, :location => project_enumeration_url(@project_enumeration)
           end
@@ -85,7 +86,10 @@ class ProjectProjectEnumerationsController < ApplicationController
       else
         respond_to do |format|
           format.html { render :action => 'new' }
-          format.js   { render :action => 'new' }
+          format.js   {
+            find_project_enumerations
+            render :action => 'create'
+          }
           format.api  { render_validation_errors(@project_enumeration) }
         end
       end
@@ -120,19 +124,33 @@ class ProjectProjectEnumerationsController < ApplicationController
     end
   end
 
+  def update_each
+    saved = ProjectEnumeration.update_each(@project, update_each_params)
+    if saved
+      flash[:notice] = l(:notice_successful_update)
+    end
+
+    redirect_to :action => 'index', :custom_field_id => @custom_field.id
+  end
+
   def destroy
     @project_enumeration.destroy
+    custom_field_id = @project_enumeration.custom_field_id
     respond_to do |format|
       format.html {
         flash[:notice] = l(:notice_successful_delete)
-        redirect_back_or_default project_project_enumerations_path(@project, :custom_field_id => @custom_field)
+        redirect_back_or_default project_project_enumerations_path(@project, :custom_field_id => custom_field_id)
       }
       format.api  { render_api_ok }
+      format.js {
+        flash[:notice] = l(:notice_successful_delete)
+        redirect_back_or_default project_project_enumerations_path(@project, :custom_field_id => custom_field_id)
+      }
     end
   end
 
 
-  protected
+protected
 
   def find_model_object
     model = self.class.model_object
@@ -147,5 +165,15 @@ class ProjectProjectEnumerationsController < ApplicationController
     @custom_field = CustomField.find(params[:custom_field_id])
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def find_project_enumerations
+    @project_enumerations = ProjectEnumeration.where(:project_id => @project.id).for_enumerations #.order_by_custom_field_then_value
+  end
+
+  def update_each_params
+    # params.require(:project_enumerations).permit(:value, :status, :sharing, :position) does not work here with param like this:
+    # "project_enumerations":{"0":{"name": ...}, "1":{"name...}}
+    params.permit(:project_enumerations => [:value, :status, :sharing, :position]).require(:project_enumerations)
   end
 end
