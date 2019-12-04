@@ -31,9 +31,12 @@ module Smile
           super
 
           # 1/ Enumerations
-          @project_enumerations = ::ProjectEnumeration.where(:project_id => @project.id).for_enumerations.order_by_custom_field_then_value
+          @enumeration_custom_fields_for_project = CustomField.for_project(@project).where(:field_format => 'project_enumeration')
 
-          @enumeration_custom_fields_options = CustomField.where(:field_format => 'project_enumeration').collect do |c|
+          @project_enumerations = ::ProjectEnumeration.where(:custom_field_id => @enumeration_custom_fields_for_project).order_by_custom_field_then_value
+
+
+          @enumeration_custom_fields_for_project_options = @enumeration_custom_fields_for_project.collect do |c|
               type_name = c.type_name
               name = c.name
               if type_name != :label_issue_plural
