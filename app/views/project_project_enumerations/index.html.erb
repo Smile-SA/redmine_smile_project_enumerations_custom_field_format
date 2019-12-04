@@ -1,0 +1,52 @@
+<%= custom_field_title @custom_field %>
+
+<% if @project_enumerations.any? %>
+<%= form_tag update_project_project_enumerations_path(@project) do %>
+<div class="box">
+  <ul id="project_enumerations" class="flat">
+  <% @project_enumerations.each_with_index do |enumeration, position| %>
+    <li>
+      <span class="sort-handle"></span>
+      <%= hidden_field_tag "project_enumeration[id]", enumeration.id %>
+      <%#= hidden_field_tag "project_enumeration[position]", position, :class => 'position' %>
+      <%= text_field_tag "project_enumeration[value]", enumeration.value, :size => 40 %>
+      <%= hidden_field_tag "project_enumeration[shared]", 'shared' %>
+      <label>
+        <%= check_box_tag "project_enumerations[status]", 'open', enumeration.active? %>
+        <%= l(:field_active) %>
+      </label>
+      <%= delete_link destroy_project_project_enumerations_path(@project, :id => value) %>
+    </li>
+  <% end %>
+  </ul>
+</div>
+<p>
+  <%= submit_tag(l(:button_save)) %> |
+  <%= link_to l(:button_back), project_project_enumerations_path(@project, :custom_field_id => @custom_field) %>
+</p>
+<%
+    end
+  end
+-%>
+
+<p><b><%= l(:label_project_enumeration_new) %></b></p>
+
+<%= form_tag @project_enumeration, :remote => true do %>
+  <%= hidden_field_tag "project_enumerations[project_id]", @project_enumeration.project_id %>
+  <%= hidden_field_tag "project_enumerations[custom_field_id]", @project_enumeration.custom_field_id %>
+  <p><%= text_field_tag 'project_enumeration[name]', '', :size => 40 %></p>
+  <%= submit_tag(l(:button_add)) %></p>
+<% end %>
+
+<%= javascript_tag do %>
+$(function() {
+  $("#project_enumerations").sortable({
+    handle: ".sort-handle",
+    update: function(event, ui) {
+      $("#project_enumerations li").each(function(){
+        $(this).find("input.position").val($(this).index()+1);
+      });
+    }
+  });
+});
+<% end %>
