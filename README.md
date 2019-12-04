@@ -61,11 +61,13 @@ The **value is stored** in the **custom_values** table
 * Test with other than Issue Custom Field (Project, ...)
 * Add Admin view for all Project Enumerations
 * Add possibility to **sort** Project Enumeration **possible values**
+* Project List Values edition like Projec Enumeration edition
 * Add more Tests
 * Fix TODOS
 
 # Changelog
 
+* **V1.0.7**  Project Enumeration edition like Key/Value edition : single page by Custom Field
 * **V1.0.6**  New Project List of Values type added
 * **V1.0.5**  Tests added on issue edit, disabled possible values (locked, closed)
 * **V1.0.4**  Tests added on issue show
