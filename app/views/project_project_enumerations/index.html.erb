@@ -10,7 +10,7 @@
     <li>
       <span class="sort-handle"></span>
       <%= hidden_field_tag "project_enumerations[#{project_enumeration.id}][id]", project_enumeration.id %>
-      <%#= hidden_field_tag "project_enumerations[#{project_enumeration.id}][position]", position, :class => 'position' %>
+      <%= hidden_field_tag "project_enumerations[#{project_enumeration.id}][position]", position, :class => 'position' %>
       <%= text_field_tag "project_enumerations[#{project_enumeration.id}][value]", project_enumeration.value, :size => 40 %>
       &nbsp;:&nbsp;
       <%= @project_enumeration.custom_field_id %></b>
