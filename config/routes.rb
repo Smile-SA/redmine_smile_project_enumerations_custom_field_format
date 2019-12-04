@@ -6,7 +6,8 @@ resources :projects do
 
     member do
       post 'create', :as => 'create'
-      patch 'update', :as => 'update'
+      put 'update', :as => 'update'
+      put 'update_each', :as => 'update_each'
       delete 'destroy', :as => 'destroy'
     end
   end
