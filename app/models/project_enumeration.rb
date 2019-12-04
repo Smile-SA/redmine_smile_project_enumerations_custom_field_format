@@ -78,6 +78,10 @@ class ProjectEnumeration < ActiveRecord::Base
     status == 'open'
   end
 
+  def active?
+    open?
+  end
+
   def name; value end
 
   def to_s; value end
