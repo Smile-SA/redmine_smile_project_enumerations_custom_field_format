@@ -171,7 +171,7 @@ protected
     enumeration_custom_field_ids_for_project = CustomField.for_project(@project).where(:field_format => 'project_enumeration').pluck(:custom_field_id)
 
     if enumeration_custom_field_ids_for_project.include?(custom_field_id)
-      @project_enumerations = ProjectEnumeration.where(:custom_field_id => custom_field_id).where(:project_id => @project.id).for_enumerations.to_a #.order_by_custom_field_then_value
+      @project_enumerations = ProjectEnumeration.where(:custom_field_id => custom_field_id).where(:project_id => @project.id).for_enumerations.order_by_custom_field_then_position
     else
       @project_enumerations = []
     end
