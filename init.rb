@@ -36,8 +36,8 @@ Redmine::Plugin.register plugin_name do
   project_module :issue_tracking do
     permission :manage_project_enumerations, {
       :projects => :settings,
-      :project_project_list_values => [:new, :create, :edit, :update, :destroy],
-      :project_project_enumerations => [:new, :create, :edit, :update, :destroy]
+      :project_project_list_values => [:index, :new, :create, :edit, :update, :destroy],
+      :project_project_enumerations => [:index, :new, :create, :edit, :update, :destroy]
     },
     :require => :member
   end
