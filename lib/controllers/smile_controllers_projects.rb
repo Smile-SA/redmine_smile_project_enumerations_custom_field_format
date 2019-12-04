@@ -33,7 +33,7 @@ module Smile
           # 1/ Enumerations
           @enumeration_custom_fields_for_project = CustomField.for_project(@project).where(:field_format => 'project_enumeration')
 
-          @project_enumerations = ::ProjectEnumeration.where(:custom_field_id => @enumeration_custom_fields_for_project).order_by_custom_field_then_value
+          @project_enumerations = ::ProjectEnumeration.where(:custom_field_id => @enumeration_custom_fields_for_project).order_by_custom_field_then_position
 
 
           @enumeration_custom_fields_for_project_options = @enumeration_custom_fields_for_project.collect do |c|
