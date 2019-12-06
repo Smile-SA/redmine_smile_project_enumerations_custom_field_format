@@ -57,10 +57,18 @@ class ProjectProjectEnumerationsController < ApplicationController
   end
 
   def create
+    find_project_enumerations_for_custom_field(@custom_field.id)
+
+    max_position = @project_enumerations.maximum(:position)
+    max_position ||= 0
+    max_position += 1
+
     @project_enumeration = ProjectEnumeration.new(
         :project_id => @project.id,
-        :custom_field_id => @custom_field.id
+        :custom_field_id => @custom_field.id,
+        :position => max_position
       )
+
     if params[:project_enumeration]
       attributes = params[:project_enumeration].dup
       attributes.delete('sharing') unless attributes.nil? || @project_enumeration.allowed_sharings.include?(attributes['sharing'])
