@@ -21,7 +21,7 @@ module Redmine
       field_attributes :version_status
 
       def possible_values_options(custom_field, object=nil)
-        possible_values_list_values(custom_field, object).sort.collect{|v| [v.to_s, v.to_s] }
+        possible_values_list_values(custom_field, object).collect{|v| [v.to_s, v.to_s] }
       end
 
       def before_custom_field_save(custom_field)
