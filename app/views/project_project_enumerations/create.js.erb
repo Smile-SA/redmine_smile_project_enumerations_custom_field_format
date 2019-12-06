@@ -2,3 +2,9 @@ $('#content').html('<%= escape_javascript(render(:template => 'project_project_e
 value_elt = $('#project_enumeration_value');
 value_elt.focus();
 value_elt.effect("highlight");
+
+$('#flash_placeholder').before('<%= escape_javascript(render_flash_messages) %>');
+<%
+  flash.delete(:notice)
+  flash.delete(:error)
+-%>

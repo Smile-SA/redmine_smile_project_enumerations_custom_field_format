@@ -96,6 +96,14 @@ class ProjectProjectEnumerationsController < ApplicationController
           format.html { render :action => 'new' }
           format.js   {
             find_project_enumerations_for_custom_field(@custom_field.id)
+
+            # Render errors to flash message
+            error_msg = @project_enumeration.errors.full_messages
+
+            if error_msg.any?
+              flash[:error] = error_msg.join('<br/>'.html_safe)
+            end
+
             render :action => 'create'
           }
           format.api  { render_validation_errors(@project_enumeration) }
