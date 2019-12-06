@@ -11,13 +11,11 @@
       <span class="sort-handle"></span>
       <%= hidden_field_tag "project_enumerations[#{project_enumeration.id}][id]", project_enumeration.id %>
       <%= hidden_field_tag "project_enumerations[#{project_enumeration.id}][position]", position, :class => 'position' %>
-      <%= text_field_tag "project_enumerations[#{project_enumeration.id}][value]", project_enumeration.value, :size => 40 %>
-      &nbsp;:&nbsp;
-      <%= @project_enumeration.custom_field_id %></b>
-      &nbsp;:&nbsp;
-      <%= l(:field_project) %>&nbsp;:&nbsp;<b><%= @project_enumeration.project.name %></b>
 
-      &nbsp;&nbsp;&nbsp;
+      <%= text_field_tag "project_enumerations[#{project_enumeration.id}][value]", project_enumeration.value, :size => 40 %>
+      <%= delete_link destroy_project_project_enumerations_path(@project, :id => project_enumeration) %>
+
+      &nbsp;&nbsp;&nbsp;&nbsp;
       <label>
         <%= l(:field_status) %>&nbsp;:&nbsp;
         <%= select_tag "project_enumerations[#{project_enumeration.id}][status]", options_for_select(ProjectEnumeration::ENUMERATION_STATUSES.collect {|s| [l("version_status_#{s}"), s]}, project_enumeration.status) %>
@@ -28,7 +26,15 @@
         <%= l(:field_sharing) %>&nbsp;:&nbsp;
         <%= select_tag "project_enumerations[#{project_enumeration.id}][sharing]", options_for_select(project_enumeration.allowed_sharings.collect {|v| [format_version_sharing(v), v]}, project_enumeration.sharing) %>
       </label>
-      <%= delete_link destroy_project_project_enumerations_path(@project, :id => project_enumeration) %>
+<%
+        if project_enumeration.project_id != @project.id
+-%>
+
+      &nbsp;&nbsp;
+      <%= l(:field_project) %>&nbsp;:&nbsp;<b><%= @project_enumeration.project.name %></b>
+<%
+        end
+-%>
     </li>
     <% end %>
   </ul>
