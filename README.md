@@ -56,6 +56,13 @@ The **value is stored** in the **custom_values** table
   - for **Custom Field** **Configuration**
     - in **views/custom_fields/formats**
 
+# Testing
+
+```console
+# From plugin root, redmine_test mysql database must exist
+scripts/test_it.sh
+```
+
 # TODOs
 
 * Test with other than Issue Custom Field (Project, ...)
@@ -74,12 +81,6 @@ The **value is stored** in the **custom_values** table
 * **V1.0.5**  Tests added on issue edit, disabled possible values (locked, closed)
 * **V1.0.4**  Tests added on issue show
 * **V1.0.3**  Tests initialized
-
-```console
-# From plugin root, redmine_test mysql database must exist
-scripts/test_it.sh
-```
-
 * **V1.0.2**  shared_enumerations fixed (namespaces)
 * **V1.0.1**  Fixed redirect to Project enumerations tab after update
 Project Enumeration status editable at creation
