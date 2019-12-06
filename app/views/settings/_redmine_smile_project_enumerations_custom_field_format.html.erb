@@ -1,9 +1,15 @@
-<br/>
 <%
   plugin_name = :redmine_smile_project_enumerations_custom_field_format
+
+  plugin_override_last_date = SmileTools.override_last_date(plugin_name)
+
+  if plugin_override_last_date.is_a?(Time)
+    plugin_override_last_date = plugin_override_last_date.to_s(:db)
+  end
 -%>
+<br/>
 <fieldset style="font-family:monospace; font-size:9px;">
-  <legend><h4>[<%= SmileTools.override_count(plugin_name) %>] override(s) added by the plugin (<%= SmileTools.override_last_date(plugin_name).to_s(:db) %>) :</h4></legend>
+  <legend><h4>[<%= SmileTools.override_count(plugin_name) %>] override(s) added by the plugin (<%= plugin_override_last_date %>) :</h4></legend>
 
   <%= SmileTools.override_traces(plugin_name).html_safe %>
 </fieldset>

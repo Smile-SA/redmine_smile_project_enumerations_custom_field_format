@@ -49,7 +49,7 @@
 <br/>
 <p><b><%= l(:label_project_enumeration_new) %></b></p>
 
-<%= form_for @project_enumeration, :url => create_project_project_enumerations_path(:custom_field_id => @project_enumeration.custom_field_id), :remote => true do |f| %>
+<%= form_for @project_enumeration, :url => create_project_project_enumerations_path(:custom_field_id => @project_enumeration.custom_field_id), :method => :post, :remote => true do |f| %>
   <%= f.hidden_field :project_id, :value => @project_enumeration.project_id %>
   <p><%= text_field_tag 'project_enumeration[value]', '', :size => 40 %></p>
   <p><%= l(:field_status) %>&nbsp;:&nbsp;<%= f.select :status, ProjectEnumeration::ENUMERATION_STATUSES.collect {|s| [l("version_status_#{s}"), s]} %></p>
