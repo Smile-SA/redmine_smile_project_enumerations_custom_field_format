@@ -121,7 +121,7 @@ class ProjectEnumeration < ActiveRecord::Base
   def self.fields_for_order_statement(table=nil)
     table ||= table_name
     [
-      "#{table}.value", "#{table}.id"
+      "#{table}.position, #{table}.value", "#{table}.id"
     ]
   end
 
