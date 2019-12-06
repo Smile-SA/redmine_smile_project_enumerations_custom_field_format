@@ -74,6 +74,7 @@ scripts/test_it.sh
 
 # Changelog
 
+* **V1.1.0**  Fix XSS issue with Project Enumeration value edition
 * **V1.0.9**  Project Enumeration create, render model errors
 * **V1.0.8**  Project Enumeration sorting by position, + create Project Enumeration at the end
 * **V1.0.7**  Project Enumeration edition like Key/Value edition : single page by Custom Field
