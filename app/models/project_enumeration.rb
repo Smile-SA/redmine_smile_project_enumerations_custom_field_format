@@ -53,15 +53,7 @@ class ProjectEnumeration < ActiveRecord::Base
     where(Project.allowed_to_condition(args.first || User.current, :view_issues))
   }
 
-  scope :order_by_custom_field_then_value, lambda { joins(:custom_field).order('custom_fields.name, value') }
-
   scope :order_by_custom_field_then_position, lambda { joins(:custom_field).order('custom_fields.name, position') }
-
-  scope :for_project, lambda { |project|
-    joins(:custom_field).
-    joins("LEFT JOIN #{table_name_prefix}custom_fields_projects#{table_name_suffix} AS cfp ON cfp.custom_field_id = #{CustomField.table_name}.id").
-    where('cfp.project_id' => project.id)
-  }
 
   scope :for_enumerations, lambda { joins(:custom_field).where('custom_fields.field_format' => 'project_enumeration') }
 
@@ -153,10 +145,10 @@ class ProjectEnumeration < ActiveRecord::Base
     sharing != 'none'
   end
 
-  def self.update_each(project, attributes)
+  def self.update_each(project, attributes, project_shared_enumerations)
     transaction do
       attributes.each do |project_enumeration_id, project_enumeration_attributes|
-        project_enumeration = project.shared_enumerations.find_by_id(project_enumeration_id)
+        project_enumeration = project_shared_enumerations.find_by_id(project_enumeration_id)
         if project_enumeration
           if block_given?
             yield project_enumeration, project_enumeration_attributes
