@@ -60,7 +60,12 @@ class ProjectProjectListValuesController < ApplicationController
   def create
     find_project_list_values_for_custom_field(@custom_field.id)
 
-    max_position = @project_list_values.maximum(:position)
+    if @project_list_values.is_a?(Array)
+      max_position = 0
+    else
+      max_position = @project_list_values.maximum(:position)
+    end
+
     max_position ||= 0
     max_position += 1
 
@@ -140,9 +145,24 @@ class ProjectProjectListValuesController < ApplicationController
   end
 
   def update_each
-    saved = ProjectEnumeration.update_each(@project, update_each_params, @project.shared_list_values)
+    project_shared_list_values = @project.shared_list_values.to_a
+    saved = ProjectEnumeration.update_each(@project, update_each_params, project_shared_list_values)
+
     if saved
       flash[:notice] = l(:notice_successful_update)
+    else
+      # Render errors to flash message
+
+      error_msg = []
+      project_shared_list_values.each do |pe|
+        pe.errors.full_messages.each do |m|
+          error_msg << "#{pe.value} : #{m} (#{l(:field_position)} #{pe.position})"
+        end
+      end
+
+      if error_msg.any?
+        flash[:error] = error_msg.join('<br/>'.html_safe)
+      end
     end
 
     redirect_to :action => 'index', :custom_field_id => @custom_field.id
