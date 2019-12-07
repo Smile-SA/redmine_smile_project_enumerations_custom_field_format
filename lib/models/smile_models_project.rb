@@ -49,6 +49,37 @@ module Smile
           if missing_instance_methods.any?
             raise trace_first_prefix + missing_instance_methods.join(', ') + '  ' + last_postfix
           end
+
+          base.class_eval do
+            scope :joins_custom_fields, lambda {
+              joins("LEFT JOIN #{table_name_prefix}custom_fields_projects#{table_name_suffix} AS cfp ON cfp.project_id = #{Project.table_name}.id")
+            }
+          end
+
+          project_enumeration_scopes = [
+            :joins_custom_fields,
+          ]
+
+          missing_scopes = project_enumeration_scopes.select{|s|
+              ! base.respond_to?(s)
+            }
+
+          if missing_scopes.any?
+            trace_first_prefix = "#{base.name} MISS                    scopes  "
+          else
+            trace_first_prefix = "#{base.name}                         scopes  "
+          end
+
+          SmileTools::trace_by_line(
+            ( missing_scopes.any? ? missing_scopes : project_enumeration_scopes ),
+            trace_first_prefix,
+            trace_prefix,
+            last_postfix
+          )
+
+          if missing_scopes.any?
+            raise trace_first_prefix + missing_scopes.join(', ') + '  ' + last_postfix
+          end
         end # def self.prepended(base)
 
 
@@ -59,8 +90,8 @@ module Smile
             ::ProjectEnumeration.
               joins(:project).
               preload(:project, :custom_field).
-              where("#{Project.table_name}.status <> ? AND #{::ProjectEnumeration.table_name}.sharing = 'system'", ::Project::STATUS_ARCHIVED).
               for_enumerations.
+              where("#{Project.table_name}.status <> ? AND #{::ProjectEnumeration.table_name}.sharing = 'system'", ::Project::STATUS_ARCHIVED).
               order_by_custom_field_then_position
           else
             @shared_enumerations ||= begin
@@ -89,7 +120,8 @@ module Smile
               joins(:project).
               preload(:project, :custom_field).
               for_list_values.
-              where("#{Project.table_name}.status <> ? AND #{::ProjectEnumeration.table_name}.sharing = 'system'", ::Project::STATUS_ARCHIVED)
+              where("#{Project.table_name}.status <> ? AND #{::ProjectEnumeration.table_name}.sharing = 'system'", ::Project::STATUS_ARCHIVED).
+              order_by_custom_field_then_position
           else
             @shared_list_values ||= begin
               r = root? ? self : root
@@ -103,7 +135,8 @@ module Smile
                           " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{::ProjectEnumeration.table_name}.sharing = 'tree')" +
                           " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{::ProjectEnumeration.table_name}.sharing IN ('hierarchy', 'descendants'))" +
                           " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{::ProjectEnumeration.table_name}.sharing = 'hierarchy')" +
-                        "))")
+                        "))").
+                order_by_custom_field_then_position
             end
           end
         end
