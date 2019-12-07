@@ -148,7 +148,7 @@ class ProjectEnumeration < ActiveRecord::Base
   def self.update_each(project, attributes, project_shared_enumerations)
     transaction do
       attributes.each do |project_enumeration_id, project_enumeration_attributes|
-        project_enumeration = project_shared_enumerations.find_by_id(project_enumeration_id)
+        project_enumeration = project_shared_enumerations.find{|pe| pe.id.to_s == project_enumeration_id}
         if project_enumeration
           if block_given?
             yield project_enumeration, project_enumeration_attributes
