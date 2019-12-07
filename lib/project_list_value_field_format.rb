@@ -31,10 +31,6 @@ module Redmine
         end
       end
 
-      def target_class
-        @target_class ||= ProjectEnumeration
-      end
-
       def cast_single_value(custom_field, value, customized=nil)
         value.to_s
       end
