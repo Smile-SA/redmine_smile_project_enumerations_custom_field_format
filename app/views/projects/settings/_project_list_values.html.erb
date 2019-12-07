@@ -3,9 +3,11 @@
 -%>
 <p>
 <%
-    @list_value_custom_fields_options.each do |cf_name, cf_id|
+    @list_value_custom_fields_enabled_on_project_options.each do |cf_name, cf_id|
 -%>
-  <%= link_to "#{ l(:label_project_list_value_new) } (#{cf_name})", new_project_project_list_values_path(@project, :custom_field_id => cf_id, :back_url => ''), :class => 'icon icon-add' %><br/>
+  <b><%= cf_name %></b> :
+  <%= link_to "#{ l(:label_project_list_value_new) } (#{cf_name})", project_project_list_values_path(@project, :custom_field_id => cf_id, :back_url => ''), :class => 'icon icon-add' %>
+  <br/>
 
 <%
     end
@@ -23,7 +25,7 @@
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
 
 <label for='list_value_custom_field'><%= l(:label_custom_field) %>:</label>
-<%= select_tag 'list_value_custom_field_id', options_for_select([[l(:label_all), '']] + @list_value_custom_fields_options, @list_value_custom_field_id), :onchange => "this.form.submit(); return false;" %>
+<%= select_tag 'list_value_custom_field_id', options_for_select([[l(:label_all), '']] + @list_value_custom_fields_enabled_on_project_options, @list_value_custom_field_id), :onchange => "this.form.submit(); return false;" %>
 
 &nbsp;<label for='list_value_value'><%= l(:label_project_list_value_value) %>:</label>
 <%= text_field_tag 'list_value_value', @list_value_value, :size => 30 %>
@@ -42,22 +44,35 @@
 
 <% if @project_list_values.present? %>
 <table class="list list_values">
-  <thead><tr>
+  <thead>
+  <tr>
     <th><%= l(:label_custom_field) %></th>
     <th><%= l(:label_project_list_value_value) %></th>
     <th><%= l(:field_status) %></th>
     <th><%= l(:field_sharing) %></th>
     <th style="width:15%"></th>
-    </tr></thead>
+  </tr>
+  </thead>
+
   <tbody>
 <%
     @project_list_values.each do |project_list_value|
       shared_list_value = (project_list_value.project != @project)
+
+      project_list_value_value = ERB::Util.html_escape(project_list_value.to_s)
+      if shared_list_value
+        project_list_value_value = (
+          project_list_value_value +
+          ':&nbsp;&nbsp;('.html_safe +
+          link_to("#{l(:field_project)}&nbsp;:&nbsp;#{project_list_value.project.name}".html_safe, project_project_list_values_path(project_list_value.project, :custom_field_id =>project_list_value.custom_field_id)).html_safe +
+          ')'
+        ).html_safe
+      end
 -%>
     <tr class="project_list_value <%= project_list_value.status %> <%= 'shared' if shared_list_value %>">
       <td class="custom_field"><%= custom_field_name_tag(project_list_value.custom_field) %></td>
 
-      <td class="value <%= 'icon icon-shared' if shared_list_value %>"><%= project_list_value %></td>
+      <td class="value <%= 'icon icon-shared' if shared_list_value %>"><%= project_list_value_value %></td>
 
       <td class="status"><%= l("version_status_#{project_list_value.status}") %></td>
 <%
@@ -69,8 +84,8 @@
 <%
       if !shared_list_value && User.current.allowed_to?(:manage_project_enumerations, @project)
 -%>
-        <%= link_to l(:button_edit), edit_project_project_list_values_path(@project, :id => project_list_value), :class => 'icon icon-edit' %>
-        <%= delete_link project_project_list_values_path(@project, :id => project_list_value) %>
+        <%= link_to l(:button_edit), project_project_list_values_path(@project, :custom_field_id => project_list_value.custom_field_id), :class => 'icon icon-edit' %>
+        <%= delete_link destroy_project_project_list_values_path(@project, :id => project_list_value) %>
 <%
       end
 -%>
