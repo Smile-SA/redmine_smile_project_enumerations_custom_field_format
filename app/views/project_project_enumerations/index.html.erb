@@ -1,6 +1,16 @@
 <span id="flash_placeholder"/>
 
+<%
+  if User.current.admin?
+-%>
 <%= custom_field_title @custom_field %>
+<%
+  else
+-%>
+<%= project_enumeration_custom_field_title(@custom_field) %>
+<%
+  end
+-%>
 
 <% if @project_enumerations.any? %>
   <%= form_tag update_each_project_project_enumerations_path(@project, :custom_field_id => @custom_field.id), :method => :put do %>
