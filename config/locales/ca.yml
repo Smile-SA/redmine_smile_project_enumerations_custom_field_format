@@ -15,3 +15,5 @@ ca:
   label_project_list_value_edit_values: Edit Values
   label_project_list_value_plural: Project Lists of Values
   label_project_list_value_new: New Project List of Values
+
+  label_not_enabled_on_project: Not enabled on project

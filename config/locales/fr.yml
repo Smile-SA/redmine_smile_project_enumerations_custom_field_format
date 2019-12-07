@@ -15,3 +15,5 @@ fr:
   label_project_list_value_edit_values: Éditer les valeurs
   label_project_list_value_plural: Listes de Valeurs du Projet
   label_project_list_value_new: Nouvelle valeur de Liste
+
+  label_not_enabled_on_project: Pas activé sur le project
