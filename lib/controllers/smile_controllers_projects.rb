@@ -31,12 +31,13 @@ module Smile
           super
 
           # 1/ Enumerations
-          @enumeration_custom_fields_for_project = CustomField.for_project(@project).where(:field_format => 'project_enumeration')
+          @enumeration_custom_fields_enabled_on_project = CustomField.enabled_on_project(@project).where(:field_format => 'project_enumeration')
 
-          @project_enumerations = ::ProjectEnumeration.where(:custom_field_id => @enumeration_custom_fields_for_project).order_by_custom_field_then_position
+          @enumeration_custom_fields_not_enabled_on_project = CustomField.not_enabled_on_project(@project).where(:field_format => 'project_enumeration')
 
+          @project_enumerations = ::ProjectEnumeration.where(:custom_field_id => @enumeration_custom_fields_enabled_on_project).order_by_custom_field_then_position
 
-          @enumeration_custom_fields_for_project_options = @enumeration_custom_fields_for_project.collect do |c|
+          @enumeration_custom_fields_enabled_on_project_options = @enumeration_custom_fields_enabled_on_project.collect do |c|
               type_name = c.type_name
               name = c.name
               if type_name != :label_issue_plural
@@ -67,9 +68,11 @@ module Smile
 
 
           # 2/ List values
-          @project_list_values = ::ProjectEnumeration.where(:project_id => @project.id).for_list_values.order_by_custom_field_then_value
+          @list_value_custom_fields_enabled_on_project = CustomField.enabled_on_project(@project).where(:field_format => 'project_list_value')
 
-          @list_value_custom_fields_options = CustomField.where(:field_format => 'project_list_value').collect do |c|
+          @project_list_values = ::ProjectEnumeration.where(:custom_field_id => @list_value_custom_fields_enabled_on_project).order_by_custom_field_then_position
+
+          @list_value_custom_fields_enabled_on_project_options = @list_value_custom_fields_enabled_on_project.collect do |c|
               type_name = c.type_name
               name = c.name
               if type_name != :label_issue_plural
