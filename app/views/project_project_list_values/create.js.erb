@@ -1,0 +1,10 @@
+$('#content').html('<%= escape_javascript(render(:template => 'project_project_list_values/index')) %>');
+value_elt = $('#project_list_value_value');
+value_elt.focus();
+value_elt.effect("highlight");
+
+$('#flash_placeholder').before('<%= escape_javascript(render_flash_messages) %>');
+<%
+  flash.delete(:notice)
+  flash.delete(:error)
+-%>
