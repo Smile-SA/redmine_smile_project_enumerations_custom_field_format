@@ -145,9 +145,24 @@ class ProjectProjectEnumerationsController < ApplicationController
   end
 
   def update_each
-    saved = ProjectEnumeration.update_each(@project, update_each_params, @project.shared_enumerations)
+    project_shared_enumerations = @project.shared_enumerations.to_a
+    saved = ProjectEnumeration.update_each(@project, update_each_params, project_shared_enumerations)
+
     if saved
       flash[:notice] = l(:notice_successful_update)
+    else
+      # Render errors to flash message
+
+      error_msg = []
+      project_shared_enumerations.each do |pe|
+        pe.errors.full_messages.each do |m|
+          error_msg << "#{pe.value} : #{m} (#{l(:field_position)} #{pe.position})"
+        end
+      end
+
+      if error_msg.any?
+        flash[:error] = error_msg.join('<br/>'.html_safe)
+      end
     end
 
     redirect_to :action => 'index', :custom_field_id => @custom_field.id
@@ -200,7 +215,22 @@ protected
   def update_each_params
     # params.require(:project_enumerations).permit(:value, :status, :sharing, :position) does not work here with param like this:
     # "project_enumerations":{"0":{"name": ...}, "1":{"name...}}
-    params.permit(:project_enumerations => [:value, :status, :sharing, :position]).require(:project_enumerations)
+
+    filtered_params = {}
+    params[:project_enumerations].each do |id, v|
+      params_for_enumeration = {}
+      v.each do |id, v|
+        next unless ['value', 'status', 'sharing', 'position'].include?(id)
+        params_for_enumeration[id] = v
+      end
+
+      filtered_params[id] = params_for_enumeration
+    end
+=begin
+    params.permit(:project_enumerations => [:value, :status, :sharing, :position]).
+      require(:project_enumerations)
+=end
+    filtered_params
   end
 
   def project_enumeration_custom_field_title(custom_field)
