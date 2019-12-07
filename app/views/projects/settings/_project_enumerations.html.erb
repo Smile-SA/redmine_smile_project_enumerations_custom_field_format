@@ -3,21 +3,33 @@
 -%>
 <p>
 <%
-    @enumeration_custom_fields_for_project_options.each do |cf_name, cf_id|
+    @enumeration_custom_fields_enabled_on_project_options.each do |cf_name, cf_id|
 -%>
   <b><%= cf_name %></b> :
   <%= link_to "#{ l(:label_enumeration_new) }", project_project_enumerations_path(@project, :custom_field_id => cf_id, :back_url => ''), :class => 'icon icon-add' %>
   <br/>
-
 <%
+    end
+
+    if @enumeration_custom_fields_not_enabled_on_project.any?
+-%>
+  <br/>
+  <u><%= l(:label_not_enabled_on_project) %> :</u><br/>
+<%
+      @enumeration_custom_fields_not_enabled_on_project.each do |cf|
+-%>
+  <b><%= cf.name %></b>
+  <br/>
+<%
+      end
     end
 -%>
 </p>
 <%
   end
--%>
 
-<% if @project_enumerations.any? %>
+  if @project_enumerations.any?
+-%>
   <div class="contextual">
   </div>
 <% end %>
@@ -25,7 +37,7 @@
 <fieldset><legend><%= l(:label_filter_plural) %></legend>
 
 <label for='enumeration_custom_field'><%= l(:label_custom_field) %>:</label>
-<%= select_tag 'enumeration_custom_field_id', options_for_select([[l(:label_all), '']] + @enumeration_custom_fields_for_project_options, @enumeration_custom_field_id), :onchange => "this.form.submit(); return false;" %>
+<%= select_tag 'enumeration_custom_field_id', options_for_select([[l(:label_all), '']] + @enumeration_custom_fields_enabled_on_project_options, @enumeration_custom_field_id), :onchange => "this.form.submit(); return false;" %>
 
 &nbsp;<label for='enumeration_value'><%= l(:label_project_enumeration_value) %>:</label>
 <%= text_field_tag 'enumeration_value', @enumeration_value, :size => 30 %>
