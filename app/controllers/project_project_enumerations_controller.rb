@@ -31,6 +31,7 @@ class ProjectProjectEnumerationsController < ApplicationController
   accept_api_auth :create, :update, :destroy
 
   helper :projects, :custom_fields
+  helper_method :project_enumeration_custom_field_title
 
 
   def index
@@ -59,7 +60,12 @@ class ProjectProjectEnumerationsController < ApplicationController
   def create
     find_project_enumerations_for_custom_field(@custom_field.id)
 
-    max_position = @project_enumerations.maximum(:position)
+    if @project_enumerations.is_a?(Array)
+      max_position = 0
+    else
+      max_position = @project_enumerations.maximum(:position)
+    end
+
     max_position ||= 0
     max_position += 1
 
@@ -120,8 +126,6 @@ class ProjectProjectEnumerationsController < ApplicationController
       attributes = params[:project_enumeration].dup
       attributes.delete('sharing') unless @project_enumeration.allowed_sharings.include?(attributes['sharing'])
 
-      #@project_enumeration.custom_field_id = params[:custom_field_id]
-
       @project_enumeration.safe_attributes = attributes
       if @project_enumeration.save
         respond_to do |format|
@@ -141,7 +145,7 @@ class ProjectProjectEnumerationsController < ApplicationController
   end
 
   def update_each
-    saved = ProjectEnumeration.update_each(@project, update_each_params)
+    saved = ProjectEnumeration.update_each(@project, update_each_params, @project.shared_enumerations)
     if saved
       flash[:notice] = l(:notice_successful_update)
     end
@@ -184,9 +188,9 @@ protected
   end
 
   def find_project_enumerations_for_custom_field(custom_field_id)
-    enumeration_custom_field_ids_for_project = CustomField.for_project(@project).where(:field_format => 'project_enumeration').pluck(:custom_field_id)
+    enumeration_custom_field_ids_enabled_on_project = CustomField.enabled_on_project(@project).where(:field_format => 'project_enumeration').pluck(:id)
 
-    if enumeration_custom_field_ids_for_project.include?(custom_field_id)
+    if enumeration_custom_field_ids_enabled_on_project.include?(custom_field_id)
       @project_enumerations = ProjectEnumeration.where(:custom_field_id => custom_field_id).where(:project_id => @project.id).for_enumerations.order_by_custom_field_then_position
     else
       @project_enumerations = []
@@ -197,5 +201,14 @@ protected
     # params.require(:project_enumerations).permit(:value, :status, :sharing, :position) does not work here with param like this:
     # "project_enumerations":{"0":{"name": ...}, "1":{"name...}}
     params.permit(:project_enumerations => [:value, :status, :sharing, :position]).require(:project_enumerations)
+  end
+
+  def project_enumeration_custom_field_title(custom_field)
+    items = []
+
+    items << [l(:label_project_enumeration_plural), settings_project_path(@project, :tab => 'project_enumerations')]
+    items << (custom_field.nil? || custom_field.new_record? ? l(:label_custom_field_new) : custom_field.name)
+
+    helpers.title(*items)
   end
 end
