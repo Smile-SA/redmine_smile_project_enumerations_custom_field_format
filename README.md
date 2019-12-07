@@ -62,18 +62,20 @@ The **value is stored** in the **custom_values** table
 # From plugin root, redmine_test mysql database must exist
 scripts/test_it.sh
 ```
+* Tested with other than Issue Custom Field (Project, Version, ...)
 
 # TODOs
 
-* Test with other than Issue Custom Field (Project, ...)
 * Add Admin view for all Project Enumerations
-* Add possibility to **sort** Project List Values **possible values**
-* Project List Values edition like Project Enumeration edition
 * Add more Tests
 * Fix TODOS
+* Edit position for shared values
 
 # Changelog
 
+* **V1.2.0**  Display not enabled project enumerations, single page to edit List Values like Enumerations
+Display errors on project enumerations update.
+Edit other than Issue Custom Fields project
 * **V1.1.0**  Fix XSS issue with Project Enumeration value edition
 * **V1.0.9**  Project Enumeration create, render model errors
 * **V1.0.8**  Project Enumeration sorting by position, + create Project Enumeration at the end
