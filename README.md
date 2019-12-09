@@ -73,6 +73,9 @@ scripts/test_it.sh
 
 # Changelog
 
+* **V1.2.1**  BugFix show only Project Enumeration values for project, or shared to project
++Show list of not enabled List Values Custom Fields
++Show tab in project settings only if at least one Custom Field of the type exists
 * **V1.2.0**  Display not enabled project enumerations, single page to edit List Values like Enumerations
 Display errors on project enumerations update.
 Edit other than Issue Custom Fields project
