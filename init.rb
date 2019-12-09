@@ -98,6 +98,7 @@ rails_dispatcher.to_prepare do
     # lib/
     '/lib/project_enumeration_field_format',
     '/lib/project_list_value_field_format',
+    "/lib/#{plugin_name}/hooks",
 
     # lib/controllers
     '/lib/controllers/smile_controllers_projects',

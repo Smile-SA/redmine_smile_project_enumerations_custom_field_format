@@ -1,0 +1,98 @@
+<%
+  # Plugin specific
+  # * #763230: Project Custom Fields configuration : split by tracker
+  #   2019-02
+-%>
+<%= labelled_form_for @project do |f| %>
+  <%= hidden_field_tag 'tab', 'issues' %>
+
+  <% unless @trackers.empty? %>
+  <fieldset class="box tabular" id="project_trackers"><legend><%= toggle_checkboxes_link('#project_trackers input[type=checkbox]') %><%= l(:label_tracker_plural)%></legend>
+  <% @trackers.each do |tracker| %>
+    <label class="floating">
+<%
+      #################
+      # Plugin specific : @tracker_checked, @tracker_readonly added
+      # Plugin specific : unuseful to_a removed
+      @tracker_checked = @project.trackers.include?(tracker)
+      @tracker_readonly = false
+
+      #################
+      # Plugin specific : hook added
+-%>
+<%= call_hook(:view_project_settings_tracker_before_checkbox, { :project => @project, :tracker => tracker }) %>
+      <%= check_box_tag 'project[tracker_ids][]', tracker.id, @tracker_checked, :readonly => @tracker_readonly, :disabled => @tracker_readonly, :id => nil %>
+      <%= tracker %>
+<%
+      #################
+      # Plugin specific : hook added
+-%>
+<%= call_hook(:view_project_settings_tracker_after_checkbox, { :project => @project, :tracker => tracker }) %>
+    </label>
+  <% end %>
+  <%= hidden_field_tag 'project[tracker_ids][]', '' %>
+  </fieldset>
+  <% end %>
+
+  <% unless @issue_custom_fields.empty? %>
+<%
+    #################
+    # Plugin specific : Project Custom Fields configuration : split by tracker
+    all_issue_custom_fields = @project.all_issue_custom_fields
+    # Plugin specific : spliting in blocks depending if C.F. is specific to a tracker or not
+    # Plugin specific : toggle_checkboxes_link removed
+-%>
+  <fieldset class="box tabular" id="project_issue_custom_fields"><legend><%=l(:label_custom_field_plural)%></legend>
+    <fieldset class="box tabular" id="project_issue_custom_fields_for_all"><legend><b><%= l(:label_tracker_all) %></b></legend>
+    <% @issue_custom_fields.select(&:is_for_all?).each do |custom_field| %>
+<%= render :partial => 'projects/settings/custom_field_checkbox', :locals => {:custom_field => custom_field, :all_issue_custom_fields => all_issue_custom_fields} %>
+    <% end %>
+    </fieldset>
+
+    <fieldset class="box tabular" id="project_issue_custom_fields_multiple"><legend><%= toggle_checkboxes_link('#project_issue_custom_fields_multiple input[type=checkbox]:enabled') %><b><%= l(:label_tracker_plural) %> : <%= l(:field_multiple) %></b></legend>
+    <% @issue_custom_fields.select{|cf| cf.trackers.size > 1}.each do |custom_field| %>
+<%= render :partial => 'projects/settings/custom_field_checkbox', :locals => {:custom_field => custom_field, :all_issue_custom_fields => all_issue_custom_fields} %>
+    <% end %>
+    </fieldset>
+
+<%
+    single_tracker_issue_custom_fields = @issue_custom_fields.select{|cf| cf.trackers.size == 1}
+    if single_tracker_issue_custom_fields.any?
+-%>
+    <fieldset class="box tabular" id="project_issue_custom_fields_for_tracker"><legend><b><%=l(:label_tracker)%></b></legend>
+<%
+      Tracker.sorted.each do |t|
+        issue_custom_fields_for_tracker = single_tracker_issue_custom_fields.select{|cf| cf.trackers.first == t}
+        if issue_custom_fields_for_tracker.any?
+-%>
+      <fieldset class="box tabular" id="project_issue_custom_fields_tracker_<%= t.id %>"><legend><%= toggle_checkboxes_link("#project_issue_custom_fields_tracker_#{t.id} input[type=checkbox]:enabled") %><b><%= t.name %></b></legend>
+        <% issue_custom_fields_for_tracker.each do |custom_field| %>
+<%= render :partial => 'projects/settings/custom_field_checkbox', :locals => {:custom_field => custom_field, :all_issue_custom_fields => all_issue_custom_fields} %>
+          <% end %>
+      </fieldset>
+        <% end %>
+      <% end %>
+    </fieldset>
+    <% end %>
+<%
+    # END -- Plugin specific : Project Custom Fields configuration : split by tracker
+    ########################
+-%>
+  <%= hidden_field_tag 'project[issue_custom_field_ids][]', '' %>
+  </fieldset>
+
+<%= call_hook(:view_project_settings_issues_custom_fields, { :issue_custom_fields => @issue_custom_fields, :project => @project }) %>
+  <% end %>
+
+  <div class="box tabular">
+  <% if @project.safe_attribute?('default_version_id') %>
+    <p><%= f.select :default_version_id, project_default_version_options(@project), include_blank: l(:label_none) %></p>
+  <% end %>
+
+  <% if @project.safe_attribute?('default_assigned_to_id') %>
+    <p><%= f.select :default_assigned_to_id, project_default_assigned_to_options(@project), include_blank: l(:label_none) %></p>
+  <% end %>
+  </div>
+
+  <p><%= submit_tag l(:button_save) %></p>
+<% end %>
