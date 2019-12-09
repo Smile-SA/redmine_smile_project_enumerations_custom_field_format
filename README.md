@@ -34,7 +34,7 @@ that allows to have **Enumerations** whose values are
 
   * **Rewrites** **app/views/projects/settings/_issues.html.erb**
 
-    C.f. : (Redmine Patch : Project Custom Fields configuration : split by tracker)[http://www.redmine.org/issues/30739]
+    C.f. : [Redmine Patch : Project Custom Fields configuration : split by tracker](http://www.redmine.org/issues/30739)
 
   * Adds three **Hooks** in this **partial** :
     * **view_project_settings_tracker_before_checkbox**
