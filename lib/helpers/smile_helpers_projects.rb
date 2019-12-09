@@ -35,15 +35,27 @@ module Smile
               end
 
               if index
-                tabs.insert(index,
-                            {:name => 'project_list_values', :action => :edit_project_list_values,
-                             :partial => 'projects/settings/project_list_values',
-                             :label => :label_project_list_value_plural})
+                any_enumeration_custom_field = (
+                  CustomField.where(:field_format => 'project_enumeration').count > 0
+                )
 
-                tabs.insert(index,
-                            {:name => 'project_enumerations', :action => :edit_project_enumerations,
-                             :partial => 'projects/settings/project_enumerations',
-                             :label => :label_project_enumeration_plural})
+                any_list_value_custom_field = (
+                  CustomField.where(:field_format => 'project_list_value').count > 0
+                )
+
+                if any_list_value_custom_field
+                  tabs.insert(index,
+                              {:name => 'project_list_values', :action => :edit_project_list_values,
+                               :partial => 'projects/settings/project_list_values',
+                               :label => :label_project_list_value_plural})
+                end
+
+                if any_enumeration_custom_field
+                  tabs.insert(index,
+                              {:name => 'project_enumerations', :action => :edit_project_enumerations,
+                               :partial => 'projects/settings/project_enumerations',
+                               :label => :label_project_enumeration_plural})
+                end
 
                 # Smile connent : why re-select all tabs ?
                 tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
