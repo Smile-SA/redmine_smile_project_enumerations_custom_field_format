@@ -86,12 +86,15 @@ module Smile
         # 1/ new method, RM 4.0 OK
         # Returns a scope of the Enumerations used by the project
         def shared_enumerations
+          enumeration_custom_fields_enabled_on_project = CustomField.enabled_on_project(self).where(:field_format => 'project_enumeration')
+
           if new_record?
             ::ProjectEnumeration.
               joins(:project).
               preload(:project, :custom_field).
               for_enumerations.
               where("#{Project.table_name}.status <> ? AND #{::ProjectEnumeration.table_name}.sharing = 'system'", ::Project::STATUS_ARCHIVED).
+              where(:custom_field_id => enumeration_custom_fields_enabled_on_project).
               order_by_custom_field_then_position
           else
             @shared_enumerations ||= begin
@@ -107,6 +110,7 @@ module Smile
                           " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{::ProjectEnumeration.table_name}.sharing IN ('hierarchy', 'descendants'))" +
                           " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{::ProjectEnumeration.table_name}.sharing = 'hierarchy')" +
                         "))").
+                where(:custom_field_id => enumeration_custom_fields_enabled_on_project).
                 order_by_custom_field_then_position
             end
           end
@@ -115,12 +119,15 @@ module Smile
         # 2/ new method, RM 4.0.3 OK
         # Returns a scope of the List Values used by the project
         def shared_list_values
+          list_value_custom_fields_enabled_on_project = CustomField.enabled_on_project(self).where(:field_format => 'project_list_value')
+
           if new_record?
             ::ProjectEnumeration.
               joins(:project).
               preload(:project, :custom_field).
               for_list_values.
               where("#{Project.table_name}.status <> ? AND #{::ProjectEnumeration.table_name}.sharing = 'system'", ::Project::STATUS_ARCHIVED).
+              where(:custom_field_id => list_value_custom_fields_enabled_on_project).
               order_by_custom_field_then_position
           else
             @shared_list_values ||= begin
@@ -136,6 +143,7 @@ module Smile
                           " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{::ProjectEnumeration.table_name}.sharing IN ('hierarchy', 'descendants'))" +
                           " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{::ProjectEnumeration.table_name}.sharing = 'hierarchy')" +
                         "))").
+                where(:custom_field_id => list_value_custom_fields_enabled_on_project).
                 order_by_custom_field_then_position
             end
           end
