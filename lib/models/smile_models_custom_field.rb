@@ -20,13 +20,18 @@ module Smile
                 joins_projects.
                 where.not(:type => 'IssueCustomField')
               ).
+              or(
+                joins_projects.
+                where(:is_for_all => true)
+              ).
               distinct
             }
 
             scope :not_enabled_on_project, lambda { |project|
               enabled_project_ids = Project.joins_custom_fields.where(:id => project.id).pluck('cfp.custom_field_id')
               where.not('id' => enabled_project_ids).
-              where(:type => 'IssueCustomField')
+              where(:type => 'IssueCustomField').
+              where.not(:is_for_all => true)
             }
           end
         end

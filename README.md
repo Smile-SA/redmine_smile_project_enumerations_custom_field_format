@@ -73,6 +73,8 @@ scripts/test_it.sh
 
 # Changelog
 
+* **V1.2.2**  Manage **is_for_all** Custom Fields
++ BugFix target_class : Model shared with ProjectEnumeration for ProjectListValueFormat
 * **V1.2.1**  BugFix show only Project Enumeration values for project, or shared to project
 +Show list of not enabled List Values Custom Fields
 +Show tab in project settings only if at least one Custom Field of the type exists

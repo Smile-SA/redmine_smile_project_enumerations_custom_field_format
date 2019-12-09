@@ -35,6 +35,11 @@ module Redmine
         value.to_s
       end
 
+      # Model shared with ProjectEnumeration
+      def target_class
+        @target_class ||= ProjectEnumeration
+      end
+
       protected
 
       def query_filter_values(custom_field, query)
