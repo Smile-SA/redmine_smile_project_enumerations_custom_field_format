@@ -35,7 +35,7 @@ module Smile
 
           @enumeration_custom_fields_not_enabled_on_project = CustomField.not_enabled_on_project(@project).where(:field_format => 'project_enumeration')
 
-          @project_enumerations = ::ProjectEnumeration.where(:custom_field_id => @enumeration_custom_fields_enabled_on_project).order_by_custom_field_then_position
+          @project_enumerations = @project.shared_enumerations
 
           @enumeration_custom_fields_enabled_on_project_options = @enumeration_custom_fields_enabled_on_project.collect do |c|
               type_name = c.type_name
@@ -70,7 +70,9 @@ module Smile
           # 2/ List values
           @list_value_custom_fields_enabled_on_project = CustomField.enabled_on_project(@project).where(:field_format => 'project_list_value')
 
-          @project_list_values = ::ProjectEnumeration.where(:custom_field_id => @list_value_custom_fields_enabled_on_project).order_by_custom_field_then_position
+          @list_value_custom_fields_not_enabled_on_project = CustomField.not_enabled_on_project(@project).where(:field_format => 'project_list_value')
+
+          @project_list_values = @project.shared_list_values
 
           @list_value_custom_fields_enabled_on_project_options = @list_value_custom_fields_enabled_on_project.collect do |c|
               type_name = c.type_name
