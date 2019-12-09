@@ -8,16 +8,29 @@
   <b><%= cf_name %></b> :
   <%= link_to "#{ l(:label_project_list_value_new) } (#{cf_name})", project_project_list_values_path(@project, :custom_field_id => cf_id, :back_url => ''), :class => 'icon icon-add' %>
   <br/>
-
 <%
+    end
+
+    if @list_value_custom_fields_not_enabled_on_project.any?
+-%>
+  <br/>
+  <u><%= l(:label_not_enabled_on_project) %> :</u><br/>
+<%
+      @list_value_custom_fields_not_enabled_on_project.each do |cf|
+-%>
+  <b><%= cf.name %></b>
+  <br/>
+<%
+      end
     end
 -%>
 </p>
 <%
   end
--%>
 
-<% if @project_list_values.any? %>
+
+  if @project_list_values.any?
+-%>
   <div class="contextual">
   </div>
 <% end %>
