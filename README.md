@@ -11,12 +11,13 @@ that allows to have **Enumerations** whose values are
 
 * Adds a new value in the CustomFiels types : **Project Enumeration**
 
-To manage a **Key / Value list** whose possible values are configured in the project.
-The **key is stored** in the **custom_values** table
+  To manage a **Key / Value list** whose possible values are configured in the project.
+  The **key is stored** in the **custom_values** table
+
 * Adds a new value in the CustomFiels types : **Project Values List**
 
-To manage a **Values list** whose possible values are configured in the project.
-The **value is stored** in the **custom_values** table
+  To manage a **Values list** whose possible values are configured in the project.
+  The **value is stored** in the **custom_values** table
 
 * Adds a new permission : **manage_project_enumerations**
 
@@ -28,6 +29,17 @@ The **value is stored** in the **custom_values** table
 * Manages Enumeration **statuses** like for Versions :
 
   If Enumeration is **locked** or **closed**, possible value will not be present in the dropdown list (depends on the Custom Field status configuration).
+
+* Splits Custom Field Project configuration **by Tracker**
+
+  * **Rewrites** **app/views/projects/settings/_issues.html.erb**
+
+    C.f. : (Redmine Patch : Project Custom Fields configuration : split by tracker)[http://www.redmine.org/issues/30739]
+
+  * Adds three **Hooks** in this **partial** :
+    * **view_project_settings_tracker_before_checkbox**
+    * **view_project_settings_tracker_after_checkbox**
+    * **view_project_settings_issues_custom_fields**
 
 * Tested with **Redmine V4.0.3**
 
@@ -55,6 +67,7 @@ The **value is stored** in the **custom_values** table
     - in **views/project_list_values**
   - for **Custom Field** **Configuration**
     - in **views/custom_fields/formats**
+  - 🔑 **Rewrites** partial **app/views/projects/settings/_issues.html.erb**
 
 # Testing
 
@@ -72,6 +85,10 @@ scripts/test_it.sh
 * Edit position for shared values
 
 # Changelog
+
+* **V1.3.0**  Splits Custom Field Project configuration **by Tracker**
+
+  * (+) Add 3 Hooks in app**/views/projects/settings/_issues.html.erb**
 
 * **V1.2.2**  Manage **is_for_all** Custom Fields
 
