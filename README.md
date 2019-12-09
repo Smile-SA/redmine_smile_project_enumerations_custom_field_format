@@ -75,17 +75,17 @@ scripts/test_it.sh
 
 * **V1.2.2**  Manage **is_for_all** Custom Fields
 
-  (+) BugFix target_class : Model shared with ProjectEnumeration for ProjectListValueFormat
+  * (+) BugFix target_class : Model shared with ProjectEnumeration for ProjectListValueFormat
 
 * **V1.2.1**  BugFix show only Project Enumeration values for project, or shared to project
 
-  (+) Show list of not enabled List Values Custom Fields
-  (+) Show tab in project settings only if at least one Custom Field of the type exists
+  * (+) Show list of not enabled List Values Custom Fields
+  * (+) Show tab in project settings only if at least one Custom Field of the type exists
 
 * **V1.2.0**  Display not enabled project enumerations, single page to edit List Values like Enumerations
 
-  Display errors on project enumerations update.
-  Edit other than Issue Custom Fields project
+  * Display errors on project enumerations update.
+  * Edit other than Issue Custom Fields project
 
 * **V1.1.0**  Fix XSS issue with Project Enumeration value edition
 * **V1.0.9**  Project Enumeration create, render model errors
