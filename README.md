@@ -88,7 +88,7 @@ scripts/test_it.sh
 
 * **V1.3.0**  Splits Custom Field Project configuration **by Tracker**
 
-  * (+) Add 3 Hooks in app**/views/projects/settings/_issues.html.erb**
+  * (+) Add 3 Hooks in **app/views/projects/settings/_issues.html.erb**
 
 * **V1.2.2**  Manage **is_for_all** Custom Fields
 
