@@ -86,6 +86,7 @@ scripts/test_it.sh
 
 # Changelog
 
+* **V1.3.1**  Fixed missing partial **_custom_field_checkbox.html.erb**
 * **V1.3.0**  Splits Custom Field Project configuration **by Tracker**
 
   * (+) Add 3 Hooks in **app/views/projects/settings/_issues.html.erb**
