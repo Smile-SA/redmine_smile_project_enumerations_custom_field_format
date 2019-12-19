@@ -180,25 +180,63 @@ class SmileTools
     @@override_last_date[p_plugin]
   end
 
-  def self.debug_scope(a_scope, tag='sc', entete='', sql=false)
+  def self.remove_sql_in_values(a_string)
+    a_string.gsub(/ IN \([^\)|^\)]*\)/, ' [IN VALUES REMOVED])')
+  end
+
+  def self.debug_scope(a_scope, tag='sc', entete='', sql=false, remove_in_values=false)
     Rails.logger.debug " =>#{tag}   --\\ SCOPE    #{a_scope.klass.name}" + (entete.present? ? ' : ' + entete : '')
     Rails.logger.debug " =>#{tag}       SELECT   #{a_scope.select_values.inspect}" if a_scope.select_values.any?
-    if a_scope.where_values_hash.any?
+    where_values = a_scope.where_values_hash
+    if where_values.empty?
+      where_values = a_scope.where_clause.send(:predicates)
+    end
+    if where_values.any?
       if a_scope.where_values_hash.is_a?(Array)
         first_where = true
         a_scope.where_values_hash.each_with_index{|w, i|
-          Rails.logger.debug " =>#{tag}       #{first_where ? 'WHERE' : '     '}  #{i} #{w.to_s}"
+          values_as_string = w.to_s
+          values_as_string = remove_sql_in_values(values_as_string) if remove_in_values
+          Rails.logger.debug " =>#{tag}       #{first_where ? 'WHERE' : '     '}  #{i} #{values_as_string}"
           first_where = false
         }
       else
-          Rails.logger.debug " =>#{tag}       WHERE    #{a_scope.where_values_hash.inspect}"
+        values_as_string = where_values.inspect
+        values_as_string = remove_sql_in_values(values_as_string) if remove_in_values
+        Rails.logger.debug " =>#{tag}       WHERE    #{values_as_string}"
       end
     end
-    Rails.logger.debug " =>#{tag}       INCLUDES #{a_scope.includes_values.inspect}" if a_scope.includes_values.any?
-    Rails.logger.debug " =>#{tag}       PRELOAD  #{a_scope.preload_values.inspect}" if a_scope.preload_values.any?
-    Rails.logger.debug " =>#{tag}       JOINS    #{a_scope.joins_values.inspect}" if a_scope.joins_values.any?
-    Rails.logger.debug " =>#{tag}       GROUPS   #{a_scope.group_values.inspect}" if a_scope.group_values.any?
-    Rails.logger.debug " =>#{tag}       ORDER    #{a_scope.order_values.inspect}" if a_scope.order_values.any?
+
+    if a_scope.includes_values.any?
+      values_as_string = a_scope.includes_values.inspect
+      values_as_string = remove_sql_in_values(values_as_string) if remove_in_values
+      Rails.logger.debug " =>#{tag}       INCLUDES #{values_as_string}"
+    end
+
+    if a_scope.preload_values.any?
+      values_as_string = a_scope.preload_values.inspect
+      values_as_string = remove_sql_in_values(values_as_string) if remove_in_values
+      Rails.logger.debug " =>#{tag}       PRELOAD  #{values_as_string}"
+    end
+
+    if a_scope.joins_values.any?
+      values_as_string = a_scope.joins_values.inspect
+      values_as_string = remove_sql_in_values(values_as_string) if remove_in_values
+      Rails.logger.debug " =>#{tag}       JOINS    #{values_as_string}"
+    end
+
+    if a_scope.group_values.any?
+      values_as_string = a_scope.group_values.inspect
+      values_as_string = remove_sql_in_values(values_as_string) if remove_in_values
+      Rails.logger.debug " =>#{tag}       GROUPS   #{values_as_string}"
+    end
+
+    if a_scope.order_values.any?
+      values_as_string = a_scope.order_values.inspect
+      values_as_string = remove_sql_in_values(values_as_string) if remove_in_values
+      Rails.logger.debug " =>#{tag}       ORDER    #{values_as_string}"
+    end
+
     Rails.logger.debug " =>#{tag}" if sql
     Rails.logger.debug " =>#{tag}       #{a_scope.to_sql}" if sql
 
