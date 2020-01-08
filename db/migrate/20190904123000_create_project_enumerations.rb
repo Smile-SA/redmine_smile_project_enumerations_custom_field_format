@@ -1,4 +1,10 @@
-class CreateProjectEnumerations < ActiveRecord::Migration[4.2]
+if Redmine::VERSION::MAJOR < 4
+  migration = ActiveRecord::Migration
+else
+  migration = ActiveRecord::Migration[4.2]
+end
+
+class CreateProjectEnumerations < migration
   def change
     create_table :project_enumerations do |t|
       t.integer :project_id, :null => false
