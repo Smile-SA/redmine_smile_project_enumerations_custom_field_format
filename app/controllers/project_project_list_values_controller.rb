@@ -79,6 +79,11 @@ class ProjectProjectListValuesController < ApplicationController
       attributes = params[:project_list_value].dup
       attributes.delete('sharing') unless attributes.nil? || @project_list_value.allowed_sharings.include?(attributes['sharing'])
 
+      if Rails.version < '5'
+        # Avoid ActiveModel::ForbiddenAttributesError
+        attributes.permit!
+      end
+
       @project_list_value.safe_attributes = attributes
     end
 
@@ -239,6 +244,10 @@ protected
     items << [l(:label_project_list_value_plural), settings_project_path(@project, :tab => 'project_list_values')]
     items << (custom_field.nil? || custom_field.new_record? ? l(:label_custom_field_new) : custom_field.name)
 
-    helpers.title(*items)
+    if Rails.version >= '5'
+      helpers.title(*items)
+    else
+      view_context.title(*items)
+    end
   end
 end

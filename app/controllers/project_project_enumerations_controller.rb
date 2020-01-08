@@ -79,6 +79,11 @@ class ProjectProjectEnumerationsController < ApplicationController
       attributes = params[:project_enumeration].dup
       attributes.delete('sharing') unless attributes.nil? || @project_enumeration.allowed_sharings.include?(attributes['sharing'])
 
+      if Rails.version < '5'
+        # Avoid ActiveModel::ForbiddenAttributesError
+        attributes.permit!
+      end
+
       @project_enumeration.safe_attributes = attributes
     end
 
@@ -239,6 +244,10 @@ protected
     items << [l(:label_project_enumeration_plural), settings_project_path(@project, :tab => 'project_enumerations')]
     items << (custom_field.nil? || custom_field.new_record? ? l(:label_custom_field_new) : custom_field.name)
 
-    helpers.title(*items)
+    if Rails.version >= '5'
+      helpers.title(*items)
+    else
+      view_context.title(*items)
+    end
   end
 end
