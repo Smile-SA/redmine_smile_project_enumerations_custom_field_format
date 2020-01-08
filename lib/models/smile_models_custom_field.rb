@@ -15,14 +15,12 @@ module Smile
 
             scope :enabled_on_project, lambda { |project|
               joins_projects.
-              where('cfp.project_id' => project.id).
-              or(
-                joins_projects.
-                where.not(:type => 'IssueCustomField')
-              ).
-              or(
-                joins_projects.
-                where(:is_for_all => true)
+              where(
+                '(' +
+                  "cfp.project_id = #{project.id} OR " +
+                  "type <> 'IssueCustomField' OR " +
+                  'is_for_all = 1' +
+                ')'
               ).
               distinct
             }
