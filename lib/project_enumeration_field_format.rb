@@ -48,6 +48,16 @@ module Redmine
         elsif object.respond_to?(:project) && object.project
           scope = object.project.shared_enumerations.joins(:custom_field).where('custom_fields.id = ?', custom_field.id)
           filtered_enumerations_options(custom_field, scope, all_statuses)
+        elsif (
+          object &&
+          !object.respond_to?(:project) &&
+          custom_field.format.class.customized_class_names.include?(object.class.name)
+        )
+          scope = ::ProjectEnumeration.
+            visible.
+            joins(:custom_field).
+            where('custom_fields.id = ?', custom_field.id)
+          filtered_enumerations_options(custom_field, scope, all_statuses)
         elsif object.nil?
           scope = ::ProjectEnumeration.visible.where(:sharing => 'system')
           filtered_enumerations_options(custom_field, scope, all_statuses)
