@@ -20,6 +20,9 @@ module Redmine
       self.form_partial = 'custom_fields/formats/project_enumeration'
       field_attributes :version_status
 
+      # + User
+      self.customized_class_names = %w(Issue TimeEntry Version Document Project User)
+
       def possible_values_options(custom_field, object=nil)
         possible_values_enumerations(custom_field, object).collect{|v| [v.to_s, v.id.to_s] }
       end

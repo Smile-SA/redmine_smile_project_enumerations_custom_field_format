@@ -20,6 +20,9 @@ module Redmine
       self.form_partial = 'custom_fields/formats/project_list_value'
       field_attributes :version_status
 
+      # + User
+      self.customized_class_names = %w(Issue TimeEntry Version Document Project User)
+
       def possible_values_options(custom_field, object=nil)
         possible_values_list_values(custom_field, object).collect{|v| [v.to_s, v.to_s] }
       end

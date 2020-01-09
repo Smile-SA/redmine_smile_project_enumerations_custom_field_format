@@ -86,6 +86,7 @@ scripts/test_it.sh
 
 # Changelog
 
+* **V1.3.4**  Enable formats on UserCustomField
 * **V1.3.3**  Lower constraint on rails version : 4 -> 3.4
 * **V1.3.2**  Fix migration file name, remove one 0 at the end
 * **V1.3.1**  Fixed missing partial **_custom_field_checkbox.html.erb**
