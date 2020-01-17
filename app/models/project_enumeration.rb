@@ -26,7 +26,7 @@ class ProjectEnumeration < ActiveRecord::Base
 
   validates_presence_of :value
   validates_uniqueness_of :value, :scope => [:project_id]
-  validates_length_of :value, :maximum => 60
+  validates_length_of :value, :maximum => 255
 
   validates_presence_of :custom_field
 
