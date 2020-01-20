@@ -86,6 +86,7 @@ scripts/test_it.sh
 
 # Changelog
 
+* **V1.3.6**  Fix : scope enabled_on_project, test if project nil
 * **V1.3.5**  Extends size of Project Enumerations value column : 60 -> 255 cars
 * **V1.3.4**  Enable formats on UserCustomField
 * **V1.3.3**  Lower constraint on rails version : 4 -> 3.4

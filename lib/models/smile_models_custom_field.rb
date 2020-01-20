@@ -17,7 +17,11 @@ module Smile
               joins_projects.
               where(
                 '(' +
-                  "cfp.project_id = #{project.id} OR " +
+                  (
+                    project ?
+                    "cfp.project_id = #{project.id} OR " :
+                    ''
+                  ) +
                   "type <> 'IssueCustomField' OR " +
                   'is_for_all = 1' +
                 ')'
