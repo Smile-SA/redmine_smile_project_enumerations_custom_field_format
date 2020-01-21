@@ -26,10 +26,27 @@ module Smile
           )
         end
 
-        # Extended to manage Project Enumerations
+        # REWRITTEN split by tracker, RM 4.0.0 OK
+        # EXTENDED  to manage Project Enumerations
+        # Smile specific #763230 Project Custom Fields configuration : split by tracker
         def settings
-          super
+          ################
+          # Smile specific : includes trackers
+          @issue_custom_fields = IssueCustomField.includes(:trackers).sorted.to_a
 
+          @issue_category ||= IssueCategory.new
+          @member ||= @project.members.new
+          @trackers = Tracker.sorted.to_a
+
+          @version_status = params[:version_status] || 'open'
+          @version_name = params[:version_name]
+          @versions = @project.shared_versions.status(@version_status).like(@version_name).sorted
+
+
+          ################
+          # Smile specific : NEXT extended
+
+          #################
           # 1/ Enumerations
           @enumeration_custom_fields_enabled_on_project = CustomField.enabled_on_project(@project).where(:field_format => 'project_enumeration')
 
@@ -67,6 +84,7 @@ module Smile
           end
 
 
+          ################
           # 2/ List values
           @list_value_custom_fields_enabled_on_project = CustomField.enabled_on_project(@project).where(:field_format => 'project_list_value')
 

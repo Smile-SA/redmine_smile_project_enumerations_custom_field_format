@@ -49,7 +49,9 @@ that allows to have **Enumerations** whose values are
   - **Redmine::FieldFormat::ProjectEnumerationFormat**
   - **Redmine::FieldFormat::ProjectListValueFormat**
 
-- 🔑 Extends Projects Controller **settings** action
+- 🔑 Rewrites Projects Controller **settings** action
+
+  To manage : Project Custom Fields configuration, split by tracker (optimization)
 
 - 🔑 Extends Projects Helper **project_settings_tabs** method
 
@@ -86,6 +88,7 @@ scripts/test_it.sh
 
 # Changelog
 
+* **V1.3.9**  Project Custom Fields configuration, split by tracker : optimization
 * **V1.3.8**  Value field input : 40 -> 80 characters
 * **V1.3.7**  Fix : Project enumeration on project, bug at project creation
 
