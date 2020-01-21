@@ -45,12 +45,21 @@ module Redmine
         if object.is_a?(Array)
           projects = object.map {|o| o.respond_to?(:project) ? o.project : nil}.compact.uniq
           projects.map {|project| possible_values_enumerations(custom_field, project)}.reduce(:&) || []
-        elsif object.respond_to?(:project) && object.project
+        elsif (
+          object.respond_to?(:project) &&
+          object.project &&
+          # Fix NATIVE bug
+          !object.is_a?(Project) # Don't know why project responds to project !!!
+        )
           scope = object.project.shared_enumerations.joins(:custom_field).where('custom_fields.id = ?', custom_field.id)
           filtered_enumerations_options(custom_field, scope, all_statuses)
         elsif (
           object &&
-          !object.respond_to?(:project) &&
+          (
+            !object.respond_to?(:project) ||
+            # Fix NATIVE bug
+            object.is_a?(Project) # Don't know why project responds to project !!!
+          ) &&
           custom_field.format.class.customized_class_names.include?(object.class.name)
         )
           scope = ::ProjectEnumeration.
