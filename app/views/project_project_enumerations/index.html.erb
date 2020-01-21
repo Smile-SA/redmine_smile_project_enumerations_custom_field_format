@@ -24,7 +24,7 @@
       <%= hidden_field_tag "project_enumerations[#{project_enumeration.id}][id]", project_enumeration.id %>
       <%= hidden_field_tag "project_enumerations[#{project_enumeration.id}][position]", position, :class => 'position' %>
 
-      <%= text_field_tag "project_enumerations[#{project_enumeration.id}][value]", project_enumeration.value, :size => 40 %>
+      <%= text_field_tag "project_enumerations[#{project_enumeration.id}][value]", project_enumeration.value, :size => 80 %>
       <%= delete_link destroy_project_project_enumerations_path(@project, :id => project_enumeration) %>
 
       &nbsp;&nbsp;&nbsp;&nbsp;

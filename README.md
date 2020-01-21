@@ -86,6 +86,7 @@ scripts/test_it.sh
 
 # Changelog
 
+* **V1.3.8**  Value field input : 40 -> 80 characters
 * **V1.3.7**  Fix : Project enumeration on project, bug at project creation
 
   Fixed a native bug : Projet has project method (self) making think that it has project permissions to check !

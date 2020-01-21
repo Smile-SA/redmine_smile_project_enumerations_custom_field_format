@@ -23,7 +23,7 @@
       <%= hidden_field_tag "project_list_values[#{project_list_value.id}][id]", project_list_value.id %>
       <%= hidden_field_tag "project_list_values[#{project_list_value.id}][position]", position, :class => 'position' %>
 
-      <%= text_field_tag "project_list_values[#{project_list_value.id}][value]", project_list_value.value, :size => 40 %>
+      <%= text_field_tag "project_list_values[#{project_list_value.id}][value]", project_list_value.value, :size => 80 %>
       <%= delete_link destroy_project_project_list_values_path(@project, :id => project_list_value) %>
 
       &nbsp;&nbsp;&nbsp;&nbsp;

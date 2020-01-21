@@ -4,7 +4,7 @@
 <%= hidden_field_tag :custom_field_id, @project_list_value.custom_field_id %>
 
 <div class="box tabular">
-  <p><%= f.text_field :value, :maxlength => 60, :size => 60, :required => true %></p>
+  <p><%= f.text_field :value, :maxlength => 80, :size => 80, :required => true %></p>
 
   <p><%= f.select :status, ProjectEnumeration::ENUMERATION_STATUSES.collect {|s| [l("version_status_#{s}"), s]} %></p>
 
