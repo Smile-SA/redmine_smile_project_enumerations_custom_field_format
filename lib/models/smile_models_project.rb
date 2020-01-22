@@ -74,7 +74,8 @@ module Smile
             ( missing_scopes.any? ? missing_scopes : project_enumeration_scopes ),
             trace_first_prefix,
             trace_prefix,
-            last_postfix
+            last_postfix,
+            :redmine_smile_project_enumerations_custom_field_format
           )
 
           if missing_scopes.any?

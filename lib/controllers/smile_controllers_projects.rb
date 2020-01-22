@@ -33,7 +33,6 @@ module Smile
           ################
           # Smile specific : includes trackers
           @issue_custom_fields = IssueCustomField.includes(:trackers).sorted.to_a
-
           @issue_category ||= IssueCategory.new
           @member ||= @project.members.new
           @trackers = Tracker.sorted.to_a
@@ -41,6 +40,7 @@ module Smile
           @version_status = params[:version_status] || 'open'
           @version_name = params[:version_name]
           @versions = @project.shared_versions.status(@version_status).like(@version_name).sorted
+          @wiki ||= @project.wiki || Wiki.new(:project => @project)
 
 
           ################
