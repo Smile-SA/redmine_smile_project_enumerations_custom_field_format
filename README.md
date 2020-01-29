@@ -88,6 +88,10 @@ scripts/test_it.sh
 
 # Changelog
 
+* **V1.3.10**  Fixed error with Postgresql : is_for_all = 1
+
+  PG::UndefinedFunction: ERROR:  operateur boolean = integer does not exist
+
 * **V1.3.9**  Project Custom Fields configuration, split by tracker : optimization
 * **V1.3.8**  Value field input : 40 -> 80 characters
 * **V1.3.7**  Fix : Project enumeration on project, bug at project creation
