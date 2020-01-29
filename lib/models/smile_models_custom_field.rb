@@ -23,7 +23,7 @@ module Smile
                     ''
                   ) +
                   "type <> 'IssueCustomField' OR " +
-                  'is_for_all = 1' +
+                  "is_for_all = #{self.class.connection.quoted_true}" +
                 ')'
               ).
               distinct
