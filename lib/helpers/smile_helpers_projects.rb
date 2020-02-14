@@ -38,6 +38,11 @@ module Smile
                   )
               end
 
+              # Smile comment : re-select new added tabs
+              tabs.select! {|tab| User.current.allowed_to?(tab[:action], @project)}
+              tabs.select! {|tab| tab[:module].nil? || @project.module_enabled?(tab[:module])}
+
+
               # 2/ Project enumerations
               return tabs unless User.current.allowed_to?(:manage_project_enumerations, @project)
 
@@ -76,8 +81,9 @@ module Smile
                                :label => :label_project_enumeration_plural})
                 end
 
-                # Smile connent : why re-select all tabs ?
-                tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
+                # Smile comment : re-select new added tabs
+                tabs.select! {|tab| User.current.allowed_to?(tab[:action], @project)}
+                tabs.select! {|tab| tab[:module].nil? || @project.module_enabled?(tab[:module])}
               end
 
               tabs
