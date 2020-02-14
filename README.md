@@ -88,6 +88,7 @@ scripts/test_it.sh
 
 # Changelog
 
+* **V1.3.12** Fixed permission name : **edit_project_list_values** -> **manage_project_enumerations**
 * **V1.3.11** Fixed Project settings **Issue Tracking** tab not visible for Redmine < 4
 
   With Redmine 4, **Trackers** / **Custom Fields** settings have moved to a new tab
