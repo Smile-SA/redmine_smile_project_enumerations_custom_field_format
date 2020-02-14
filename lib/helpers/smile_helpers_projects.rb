@@ -42,7 +42,6 @@ module Smile
               tabs.select! {|tab| User.current.allowed_to?(tab[:action], @project)}
               tabs.select! {|tab| tab[:module].nil? || @project.module_enabled?(tab[:module])}
 
-
               # 2/ Project enumerations
               return tabs unless User.current.allowed_to?(:manage_project_enumerations, @project)
 
@@ -58,33 +57,33 @@ module Smile
                 index = tabs.index(options_tab)
               end
 
-              if index
-                any_enumeration_custom_field = (
-                  CustomField.where(:field_format => 'project_enumeration').count > 0
-                )
+              return tabs unless index
 
-                any_list_value_custom_field = (
-                  CustomField.where(:field_format => 'project_list_value').count > 0
-                )
+              any_enumeration_custom_field = (
+                CustomField.where(:field_format => 'project_enumeration').count > 0
+              )
 
-                if any_list_value_custom_field
-                  tabs.insert(index,
-                              {:name => 'project_list_values', :action => :edit_project_list_values,
-                               :partial => 'projects/settings/project_list_values',
-                               :label => :label_project_list_value_plural})
-                end
+              any_list_value_custom_field = (
+                CustomField.where(:field_format => 'project_list_value').count > 0
+              )
 
-                if any_enumeration_custom_field
-                  tabs.insert(index,
-                              {:name => 'project_enumerations', :action => :edit_project_enumerations,
-                               :partial => 'projects/settings/project_enumerations',
-                               :label => :label_project_enumeration_plural})
-                end
-
-                # Smile comment : re-select new added tabs
-                tabs.select! {|tab| User.current.allowed_to?(tab[:action], @project)}
-                tabs.select! {|tab| tab[:module].nil? || @project.module_enabled?(tab[:module])}
+              if any_list_value_custom_field
+                tabs.insert(index,
+                            {:name => 'project_list_values', :action => :manage_project_enumerations,
+                             :partial => 'projects/settings/project_list_values',
+                             :label => :label_project_list_value_plural})
               end
+
+              if any_enumeration_custom_field
+                tabs.insert(index,
+                            {:name => 'project_enumerations', :action => :manage_project_enumerations,
+                             :partial => 'projects/settings/project_enumerations',
+                             :label => :label_project_enumeration_plural})
+              end
+
+              # Smile comment : re-select new added tabs
+              tabs.select! {|tab| User.current.allowed_to?(tab[:action], @project)}
+              tabs.select! {|tab| tab[:module].nil? || @project.module_enabled?(tab[:module])}
 
               tabs
             end
