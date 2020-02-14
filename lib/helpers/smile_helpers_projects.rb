@@ -20,18 +20,37 @@ module Smile
             # Extended
             def project_settings_tabs_with_project_enumerations
               tabs = project_settings_tabs_without_project_enumerations
+
+              # 1/ Issue settings
+              modules_tab = {:name => 'modules', :action => :select_project_modules,
+                         :partial => 'projects/settings/modules',
+                         :label => :label_module_plural}
+
+              # Previous Redmine version (< 4)
+              index = tabs.index(modules_tab)
+              if index
+                # Modules selection merged into info tab
+                tabs.delete_at(index)
+
+                # Insert new issues tab (moved from info tab)
+                tabs.insert(index,
+                    {:name => 'issues', :action => :edit_project, :module => :issue_tracking, :partial => 'projects/settings/issues', :label => :label_issue_tracking}
+                  )
+              end
+
+              # 2/ Project enumerations
               return tabs unless User.current.allowed_to?(:manage_project_enumerations, @project)
 
-              options = {:name => 'categories', :action => :manage_categories,
+              options_tab = {:name => 'categories', :action => :manage_categories,
                          :partial => 'projects/settings/issue_categories',
                          :label => :label_issue_category_plural}
 
-              index = tabs.index(options)
+              index = tabs.index(options_tab)
               unless index # Needed for Redmine v3.4.x
-                options[:url] = {:tab => 'categories',
+                options_tab[:url] = {:tab => 'categories',
                                  :version_status => params[:version_status],
                                  :version_name => params[:version_name]}
-                index = tabs.index(options)
+                index = tabs.index(options_tab)
               end
 
               if index

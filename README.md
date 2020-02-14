@@ -88,7 +88,12 @@ scripts/test_it.sh
 
 # Changelog
 
-* **V1.3.10**  Fixed error with Postgresql : is_for_all = 1
+* **V1.3.11** Fixed Project settings **Issue Tracking** tab not visible for Redmine < 4
+
+  With Redmine 4, **Trackers** / **Custom Fields** settings have moved to a new tab
+  And **Modules** tab has been merged to **Information** tab
+
+* **V1.3.10** Fixed error with Postgresql : is_for_all = 1
 
   PG::UndefinedFunction: ERROR:  operateur boolean = integer does not exist
 
