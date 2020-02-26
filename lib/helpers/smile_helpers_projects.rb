@@ -39,7 +39,13 @@ module Smile
               end
 
               # Smile comment : re-select new added tabs
-              tabs.select! {|tab| User.current.allowed_to?(tab[:action], @project)}
+              tabs.select! {|tab|
+                ################
+                # Smile specific : manage controller in allowed_to?
+                allowed_params = tab[:action]
+                allowed_params = {:action => allowed_params, :controller => tab[:controller]} if tab[:controller]
+                User.current.allowed_to?(allowed_params, @project)
+              }
               tabs.select! {|tab| tab[:module].nil? || @project.module_enabled?(tab[:module])}
 
               # 2/ Project enumerations
@@ -82,7 +88,13 @@ module Smile
               end
 
               # Smile comment : re-select new added tabs
-              tabs.select! {|tab| User.current.allowed_to?(tab[:action], @project)}
+              tabs.select! {|tab|
+                ################
+                # Smile specific : manage controller in allowed_to?
+                allowed_params = tab[:action]
+                allowed_params = {:action => allowed_params, :controller => tab[:controller]} if tab[:controller]
+                User.current.allowed_to?(allowed_params, @project)
+              }
               tabs.select! {|tab| tab[:module].nil? || @project.module_enabled?(tab[:module])}
 
               tabs

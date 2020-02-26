@@ -88,6 +88,10 @@ scripts/test_it.sh
 
 # Changelog
 
+* **V1.3.13** Compatibility with **Redmine Issue Templates plugin**
+
+  Project settings tabs : manage controller in allowed_to? in **project_settings_tabs_with_project_enumerations**
+
 * **V1.3.12** Fixed permission name : **edit_project_list_values** -> **manage_project_enumerations**
 * **V1.3.11** Fixed Project settings **Issue Tracking** tab not visible for Redmine < 4
 
