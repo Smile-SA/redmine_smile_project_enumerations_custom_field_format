@@ -28,8 +28,10 @@ that allows to have **Enumerations** whose values are
 
 * Manages Enumeration **statuses** like for Versions :
 
-  If Enumeration is **locked** or **closed**, possible value will not be present in the dropdown list (depends on the Custom Field status configuration).
+  If Enumeration is **locked** or **closed**, possible value will not be present in the dropdown list (depends on the Custom Field status configuration) :
 
+  ![Example of status configuration](https://user-images.githubusercontent.com/540464/79513668-aefa6b80-8044-11ea-91a5-0158912c47fc.png "Example of status configuration") : 
+  
 * Splits Custom Field Project configuration **by Tracker**
 
   * **Rewrites** **app/views/projects/settings/_issues.html.erb**
