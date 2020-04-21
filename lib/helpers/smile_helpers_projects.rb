@@ -9,7 +9,7 @@ module Smile
       module ProjectEnumerations
         def self.prepended(base)
           project_enumerations_instance_methods = [
-            :project_settings_tabs, # 1/ EXTENDED RM 4.0.0 OK
+            :project_settings_tabs_with_project_enumerations, # 1/ EXTENDED RM 4.0.0 OK
           ]
 
 

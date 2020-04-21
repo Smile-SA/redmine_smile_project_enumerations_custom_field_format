@@ -30,8 +30,8 @@ that allows to have **Enumerations** whose values are
 
   If Enumeration is **locked** or **closed**, possible value will not be present in the dropdown list (depends on the Custom Field status configuration) :
 
-  ![Example of status configuration](https://user-images.githubusercontent.com/540464/79513668-aefa6b80-8044-11ea-91a5-0158912c47fc.png "Example of status configuration") : 
-  
+  ![Example of status configuration](https://user-images.githubusercontent.com/540464/79513668-aefa6b80-8044-11ea-91a5-0158912c47fc.png "Example of status configuration")
+
 * Splits Custom Field Project configuration **by Tracker**
 
   * **Rewrites** **app/views/projects/settings/_issues.html.erb**
@@ -89,6 +89,10 @@ scripts/test_it.sh
 * Edit position for shared values
 
 # Changelog
+
+* **V1.3.14** Compatibility with **Redmine Wiki Extensions plugin**
+
+  That has to accept other plugins too !
 
 * **V1.3.13** Compatibility with **Redmine Issue Templates plugin**
 
