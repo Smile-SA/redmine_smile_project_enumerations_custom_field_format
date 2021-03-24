@@ -90,6 +90,10 @@ scripts/test_it.sh
 
 # Changelog
 
+* **V1.3.15** Bugfix
+
+  Removed a potential issue with **to_prepare**
+
 * **V1.3.14** Compatibility with **Redmine Wiki Extensions plugin**
 
   That has to accept other plugins too !

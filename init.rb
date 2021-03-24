@@ -23,7 +23,7 @@ Redmine::Plugin.register plugin_name do
   author_url "mailto:Jerome BATAILLE <redmine-support@smile.fr>?subject=#{plugin_name}"
   description 'Adds a new Custom Field Format that stores its values in project enumerations'
   url "https://github.com/Smile-SA/#{plugin_name}"
-  version '1.3.14'
+  version '1.3.15'
   requires_redmine :version_or_higher => '3.4'
 
 
@@ -62,9 +62,7 @@ end
 ###############
 # 4/ Dispatcher
 #Executed each time the classes are reloaded
-if !defined?(rails_dispatcher)
-  rails_dispatcher = Rails.configuration
-end
+rails_dispatcher = Rails.configuration
 
 
 def prepend_in(dest, mixin_module)
