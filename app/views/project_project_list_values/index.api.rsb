@@ -1,0 +1,10 @@
+api.array :project_list_values do
+  @project_list_values.each do |entity|
+    api.entity do
+      api.id entity.id
+      api.value entity.value
+      api.status entity.status
+      api.sharing entity.sharing
+    end
+  end
+end

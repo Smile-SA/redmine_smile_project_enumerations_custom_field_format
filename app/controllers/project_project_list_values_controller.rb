@@ -28,7 +28,7 @@ class ProjectProjectListValuesController < ApplicationController
 
 
   # TODO create API views
-  accept_api_auth :create, :update, :destroy
+  accept_api_auth :index, :create, :update, :destroy
 
   helper :projects, :custom_fields
   helper_method :project_list_value_custom_field_title
@@ -41,6 +41,11 @@ class ProjectProjectListValuesController < ApplicationController
         :project_id => @project.id,
         :custom_field_id => @custom_field.id
       )
+    respond_to do |format|
+      format.html do
+        end
+      format.api
+    end    
   end
 
   def new
