@@ -18,7 +18,7 @@ module Smile
               where(
                 '(' +
                   (
-                    project ?
+                    project.nil? ?
                     "cfp.project_id = #{project.id} OR " :
                     ''
                   ) +
