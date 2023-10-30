@@ -54,14 +54,10 @@ module Redmine
         if object.is_a?(Array)
           projects = object.map {|o| o.respond_to?(:project) ? o.project : nil}.compact.uniq
           projects.map {|project| possible_values_list_values(custom_field, project)}.reduce(:&) || []
-        elsif object.respond_to?(:project) && object.project
+        elsif ( object.respond_to?(:project) && object.project )
           scope = object.project.shared_list_values.joins(:custom_field).where('custom_fields.id = ?', custom_field.id)
           filtered_list_values_options(custom_field, scope, all_statuses)
-        elsif (
-          object &&
-          !object.respond_to?(:project) &&
-          custom_field.format.class.customized_class_names.include?(object.class.name)
-        )
+        elsif ( object && !object.respond_to?(:project) && custom_field.format.class.customized_class_names.include?(object.class.name) )
           scope = ::ProjectEnumeration.
             visible.
             joins(:custom_field).
