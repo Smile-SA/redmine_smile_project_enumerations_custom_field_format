@@ -75,7 +75,7 @@ end
 ###############
 # 5/ to_prepare
 # Executed after Rails initialization
-rails_dispatcher.to_prepare do
+rails_dispatcher.after_initialize do
   Rails.logger.info "o=>"
   Rails.logger.info "o=>\\__ #{plugin_name} V#{plugin_version}"
 
