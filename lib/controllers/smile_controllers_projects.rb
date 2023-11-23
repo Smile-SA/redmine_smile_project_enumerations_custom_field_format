@@ -1,7 +1,7 @@
 require_dependency "projects_controller"
 
-module Smile
-  module Controllers
+module Controllers
+  module SmileControllersProjects
     module ProjectsOverride
       module ProjectEnumerations
         def self.prepended(base)

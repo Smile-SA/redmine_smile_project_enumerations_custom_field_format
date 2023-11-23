@@ -3,8 +3,8 @@ require_dependency "projects_helper"
 ################
 # Smile connent : why re-select all tabs ?
 
-module Smile
-  module Helpers
+module Helpers
+  module SmileHelpersProjects
     module ProjectsOverride
       module ProjectEnumerations
         def self.prepended(base)

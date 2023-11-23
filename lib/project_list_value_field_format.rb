@@ -2,7 +2,7 @@
 #
 # Compatible with Redmine 4.0
 #
-# module Redmine::FieldFormat::ProjectEnumerationFormat
+# module ProjectListValueFieldFormat::FieldFormat::ProjectEnumerationFormat
 #
 # * InstanceMethods
 #   * possible_values_options
@@ -13,9 +13,9 @@
 #     * filtered_list_values_options
 
 
-module Redmine
+module ProjectListValueFieldFormat
   module FieldFormat
-    class ProjectListValueFormat < RecordList
+    class ProjectListValueFormat < Redmine::FieldFormat::RecordList
       add 'project_list_value'
       self.form_partial = 'custom_fields/formats/project_list_value'
       field_attributes :version_status
@@ -82,4 +82,4 @@ module Redmine
       end
     end
   end # FieldFormatOverride
-end # module RedmineOverride
+end # module ProjectListValueFieldFormatOverride

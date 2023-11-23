@@ -12,8 +12,8 @@ Rails.logger.info "o=>Application user : #{ENV['USER']}"
 plugin_name = :redmine_smile_project_enumerations_custom_field_format
 plugin_root = File.dirname(__FILE__)
 
-# lib/not_reloaded
-require plugin_root + '/lib/not_reloaded/smile_tools'
+# lib/smile_tools
+require plugin_root + '/lib/smile_tools'
 
 Redmine::Plugin.register plugin_name do
   ########################
@@ -153,19 +153,19 @@ rails_dispatcher.to_prepare do
   #***************************
   # **** 6.1/ Controllers ****
   Rails.logger.info "o=>----- CONTROLLERS"
-  prepend_in(ProjectsController, Smile::Controllers::ProjectsOverride::ProjectEnumerations)
+  prepend_in(ProjectsController, Controllers::SmileControllersProjects::ProjectsOverride::ProjectEnumerations)
 
 
   #***********************
   # **** 6.2/ Helpers ****
   Rails.logger.info "o=>----- HELPERS"
-  prepend_in(ProjectsHelper, Smile::Helpers::ProjectsOverride::ProjectEnumerations)
+  prepend_in(ProjectsHelper, Helpers::SmileHelpersProjects::ProjectsOverride::ProjectEnumerations)
 
   #**********************
   # **** 6.3/ Models ****
   Rails.logger.info "o=>----- MODELS"
-  prepend_in(Project, Smile::Models::ProjectOverride::ProjectEnumerations)
-  prepend_in(CustomField, Smile::Models::CustomFieldOverride::ProjectEnumerations)
+  prepend_in(Project, Models::SmileModelsProject::ProjectOverride::ProjectEnumerations)
+  prepend_in(CustomField, Models::SmileModelsCustomField::CustomFieldOverride::ProjectEnumerations)
 
 
   # keep traces if classes / modules are reloaded

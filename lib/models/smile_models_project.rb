@@ -5,8 +5,8 @@
 
 #require 'active_support/concern' #Rails 3
 
-module Smile
-  module Models
+module Models
+  module SmileModelsProject
     module ProjectOverride
       #*****************
       # 1/ ProjectEnumerations
@@ -165,5 +165,5 @@ module Smile
         end
       end # module ProjectEnumerations
     end # module ProjectOverride
-  end # module Models
-end # module Smile
+  end # module SmileModelsProject
+end # module Models

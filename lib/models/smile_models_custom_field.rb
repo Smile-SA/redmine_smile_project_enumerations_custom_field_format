@@ -1,8 +1,8 @@
 # Smile - add methods to the CustomField model
 #
 
-module Smile
-  module Models
+module Models
+  module SmileModelsCustomField
     module CustomFieldOverride
       module ProjectEnumerations
         # extend ActiveSupport::Concern
@@ -39,5 +39,5 @@ module Smile
         end
       end # module ProjectEnumerations
     end # module CustomFieldOverride
-  end # module Models
-end # module Smile
+  end # module SmileModelsCustomField
+end # module Models
