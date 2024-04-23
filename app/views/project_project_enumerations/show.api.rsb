@@ -1,0 +1,6 @@
+api.project_enumeration do
+  api.id @project_enumeration.id
+  api.value @project_enumeration.value
+  api.status @project_enumeration.status
+  api.sharing @project_enumeration.sharing
+end

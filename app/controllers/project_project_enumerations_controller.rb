@@ -32,8 +32,7 @@ class ProjectProjectEnumerationsController < ApplicationController
 
   helper :projects, :custom_fields
   helper_method :project_enumeration_custom_field_title
-
-
+  
   def index
     find_project_enumerations_for_custom_field(@custom_field.id)
 
@@ -104,7 +103,7 @@ class ProjectProjectEnumerationsController < ApplicationController
             render :action => 'create'
           }
           format.api do
-            render :action => 'show', :status => :created, :location => project_enumeration_url(@project_enumeration)
+            render :action => 'show', :status => :created, :location => project_project_enumerations_url(@project_enumeration)
           end
         end
       else

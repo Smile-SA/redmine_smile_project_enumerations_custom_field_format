@@ -104,7 +104,7 @@ class ProjectProjectListValuesController < ApplicationController
             render :action => 'create'
           }
           format.api do
-            render :action => 'show', :status => :created, :location => project_list_value_url(@project_list_value)
+            render :action => 'show', :status => :created, :location => project_project_list_values_url(@project_list_value)
           end
         end
       else

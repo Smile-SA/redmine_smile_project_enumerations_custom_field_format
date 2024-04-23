@@ -1,0 +1,6 @@
+api.project_list_value do
+  api.id @project_list_value.id
+  api.value @project_list_value.value
+  api.status @project_list_value.status
+  api.sharing @project_list_value.sharing
+end
