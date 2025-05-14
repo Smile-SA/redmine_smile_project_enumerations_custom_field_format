@@ -123,17 +123,18 @@ rails_dispatcher.after_initialize do
     # Folders whose contents should be reloaded, NOT including sub-folders
 
 #    ActiveSupport::Dependencies.autoload_once_paths.reject!{|x| x =~ /^#{Regexp.escape(plugin_root)}/}
+    Rails.application.config.to_prepare do
+      autoload_plugin_paths = ['/lib/controllers', '/lib/helpers', '/lib/models']
 
-    autoload_plugin_paths = ['/lib/controllers', '/lib/helpers', '/lib/models']
-
-    Rails.logger.debug 'o=>'
-    Rails.logger.debug "o=>autoload_paths / watchable_dirs +="
-    autoload_plugin_paths.each{|p|
-      new_path = plugin_root + p
-      Rails.logger.debug "o=>  #{plugin_rel_root + p}"
-      ActiveSupport::Dependencies.autoload_paths << new_path
-      rails_dispatcher.watchable_dirs[new_path] = [:rb]
-    }
+      Rails.logger.debug 'o=>'
+      Rails.logger.debug "o=>autoload_paths / watchable_dirs +="
+      autoload_plugin_paths.each{|p|
+        new_path = plugin_root + p
+        Rails.logger.debug "o=>  #{plugin_rel_root + p}"
+        ActiveSupport::Dependencies.autoload_paths << new_path
+        rails_dispatcher.watchable_dirs[new_path] = [:rb]
+      }
+    end
   else
     ##########################
     # 5.3/ Static requirements
