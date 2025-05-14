@@ -4,7 +4,7 @@
   plugin_override_last_date = SmileTools.override_last_date(plugin_name)
 
   if plugin_override_last_date.is_a?(Time)
-    plugin_override_last_date = plugin_override_last_date.to_s(:db)
+    plugin_override_last_date = plugin_override_last_date.to_s
   end
 -%>
 <br/>
