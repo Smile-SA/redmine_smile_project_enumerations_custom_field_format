@@ -17,7 +17,7 @@
 
 class ProjectProjectEnumerationsController < ApplicationController
   menu_item :settings
-  model_object ProjectEnumeration
+  self.model_object = ProjectEnumeration
 
   before_action :find_model_object, :except => [:index, :new, :create, :update_each]
   before_action :find_project_from_association, :except => [:index, :new, :create, :update_each]
